@@ -1,0 +1,140 @@
+.shirt-state {
+	margin:0 auto;
+	width:1000px;
+}
+
+.shirt-state-title {
+	text-align:center;
+	font-size:30px;
+	color:#000000;
+	width:100%;
+	height:100px;
+	line-height:100px;
+	border-bottom-color:#E5E5E5;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+}
+
+.shirt-state-search {
+	width:100%;
+	height:50px;
+	line-height:50px;
+	font-size:15px;
+	color:#000000;
+}
+
+.search-brand {
+	padding:0 0 0 20px;
+}
+
+.search-source,
+.search-active,
+.search-beginDate {
+	padding:0 0 0 10px;
+}
+
+.search-beginDate input,
+.search-endDate input {
+	width:83px;
+}
+
+.search-s-shirt {
+	margin:0 0 0 10px;
+	width:60px;
+	height:30px;
+	line-height:30px;
+}
+
+.search-add-shirt {
+	margin:0 0 0 60px;
+	width:100px;
+}
+
+.shirt-state-info {
+	padding:0 20px 0 20px;
+	width:960px;
+}
+
+.shirt-state-table {
+	width:100%;
+	font-size:11px;
+	color:#333333;
+	border-width:1px;
+	border-color:#666666;
+	border-collapse:collapse;
+	text-align:center;
+}
+
+.shirt-state-table th {
+	border-width:1px;
+	padding:8px;
+	border-style:solid;
+	border-color:#666666;
+	background-color:#dedede;
+}
+
+.shirt-s-t-th-1 {
+	width:40px;
+}
+
+.shirt-s-t-th-2 {
+	width:240px;
+}
+
+.shirt-s-t-th-3 {
+	width:35px;
+}
+
+.shirt-s-t-th-4 {
+	width:70px;
+}
+
+.shirt-s-t-th-5 {
+	width:30px;
+}
+
+.shirt-s-t-th-6 {
+	width:30px;
+}
+
+.shirt-s-t-th-7 {
+	width:45px;
+}
+
+.shirt-s-t-th-8 {
+	width:40px;
+}
+
+.shirt-s-t-th-9 {
+	width:110px;
+}
+
+.shirt-s-t-th-10 {
+	width:25px;
+}
+
+.shirt-state-table td {
+	border-width:1px;
+	padding:8px;
+	border-style:solid;
+	border-color:#666666;
+	background-color:#ffffff;
+}
+
+.shirt-s-t-td-opt-1 {
+	color:#0000FF;
+	font-weight:bolder;
+	cursor:pointer;
+}
+
+.shirt-s-t-td-opt-2 {
+	color:#0000FF;
+	font-weight:bolder;
+	cursor:pointer;
+}
+
+.shirt-s-t-td-opt-3 {
+	color:#FF0000;
+	font-weight:bolder;
+	cursor:pointer;
+}
