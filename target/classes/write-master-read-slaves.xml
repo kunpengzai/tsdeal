@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+	http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+	http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	default-autowire="byName">
+
+	<context:annotation-config></context:annotation-config>
+
+	<bean id="propertyConfigurer"    
+      	class="com.itee.tsd.utils.EncryptablePropertyPlaceholderConfigurer">
+      	<property name="locations">
+      		<list>
+	            <value>classpath:jdbc.properties</value>
+			</list>
+        </property>    
+    </bean>  
+
+	<bean id="masterDataSourceOne" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClassName}" />
+		<property name="jdbcUrl">
+			<value>${m_url}</value>
+		</property>
+		<property name="user" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="initialPoolSize" value="20" />
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="10" />
+		<property name="acquireIncrement" value="5" />
+		<property name="maxIdleTime" value="60" />
+		<property name="maxStatements" value="0" />
+	</bean>
+
+	<bean id="slaveDataSourceOne" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClassName}" />
+		<property name="jdbcUrl">
+			<value>${s_url}</value>
+		</property>
+		<property name="user" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="initialPoolSize" value="10" />
+		<property name="minPoolSize" value="10" />
+		<property name="maxPoolSize" value="20" />
+		<property name="acquireIncrement" value="5" />
+		<property name="maxIdleTime" value="60" />
+		<property name="maxStatements" value="0" />
+	</bean>
+
+	<bean id="routing4DBDataSource"
+		class="com.google.code.routing4db.datasource.Routing4DBDataSource">
+		<property name="targetDataSources">
+			<map>
+				<entry key="masterDataSourceOne" value-ref="masterDataSourceOne" />
+				<entry key="slaveDataSourceOne" value-ref="slaveDataSourceOne" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="masterDataSourceOne" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis.xml" />
+		<property name="dataSource" ref="routing4DBDataSource" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:com/itee/**/dao/**/*Dao.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="routing4DBDataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="masterSlaveStrategy"
+		class="com.google.code.routing4db.strategy.impl.MasterSlaveStrategy">
+		<property name="readMethodPatterns">
+			<list>
+				<value>get*</value> 
+				<value>find*</value> 
+				<value>load*</value> 
+				<value>search*</value>
+				<value>select*</value>
+			</list>
+		</property>
+		<property name="masterDataSourceKey" value="masterDataSourceOne"></property>
+
+		<property name="dataSourceKeyMap">
+			<map>
+				<entry key="0" value="slaveDataSourceOne"></entry>
+			</map>
+		</property>
+
+		<property name="excludeMethodPatterns">
+			<list>
+				<value>excludeMethodPatterns*</value>
+				<value>*exclude*</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="shirtDaoTarget" class="com.itee.tsd.dao.impl.ShirtDaoImpl"></bean>
+	<bean id="shirtDao"
+		class="com.google.code.routing4db.spring.RoutingSpringFactoryBean">
+		<property name="targetInterface" value="com.itee.tsd.dao.ShirtDao"></property>
+		<property name="targetObject" ref="shirtDaoTarget"></property>
+		<property name="routingStrategy" ref="masterSlaveStrategy"></property>
+	</bean>
+</beans>

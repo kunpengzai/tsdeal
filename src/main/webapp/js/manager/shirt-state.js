@@ -61,10 +61,10 @@ function getShirtList() {
 							+ '<td>'+item.brandName+'</td>'
 							+ '<td>'+item.clickNum+'</td>'
 							+ '<td>'+item.minPrice+'</td>'
-							+ '<td>'+(item.isActive==0?'是':'否')+'</td>'
-							+ '<td>'+(item.design==0?'纯色':'有图案')+'</td>'
+							+ '<td>'+(item.isActive==1?'是':'否')+'</td>'
+							+ '<td>'+(item.design==1?'纯色':'有图案')+'</td>'
 							+ '<td>'+item.colorNames+'</td>'
-							+ '<td>'+(item.sleeve==0?'长袖':'短袖')+'</td>'
+							+ '<td>'+(item.sleeve==1?'长袖':'短袖')+'</td>'
 							+ '<td>'
 							+ '<span class="shirt-s-t-td-opt-1">查看</span> '
 							+ '<span class="shirt-s-t-td-opt-2" onclick="showShirtEditLayer('+item.id+');">编辑</span> '
@@ -98,4 +98,15 @@ function showShirtEditLayer() {
 
 function hideShirtEditLayer() {
 	$(".shirt-edit-layer").hide();
+}
+
+function selectImgType() {
+	var imgType = $(".shirt-add-imgType-sel").val();
+	$(".shirt-add-s-uploadfile").hide();
+	$(".shirt-add-s-imgUrl").hide();
+	if (imgType == 1) {
+		$(".shirt-add-s-uploadfile").show();
+	} else if (imgType == 2) {
+		$(".shirt-add-s-imgUrl").show();
+	}
 }

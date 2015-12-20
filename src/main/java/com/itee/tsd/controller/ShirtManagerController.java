@@ -36,9 +36,11 @@ public class ShirtManagerController {
 	public String shirtState(HttpServletRequest request, Model model) {
 		List<ShirtPropertyDTO> brandList = baseService.getBrandList();
 		List<ShirtPropertyDTO> sourceList = baseService.getSourceList();
+		List<ShirtPropertyDTO> colorList = baseService.getColorList();
 		
 		model.addAttribute("brandList", brandList);
 		model.addAttribute("sourceList", sourceList);
+		model.addAttribute("colorList", colorList);
 		
 		return "/manager/shirt-state";
 	}

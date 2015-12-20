@@ -71,10 +71,33 @@ body {
 	font-family:'Microsoft YaHei' ! important;
 }
 .input:hover {
-	border-color:rgb(150, 150, 150);
+	border-color:#969696;
 }
 .input:focus {
-   	border-color:rgb(36, 131, 203);
+   	border-color:#2483CB;
+}
+
+.textarea {
+	padding:5px 5px 5px 5px;
+	border-radius:4px;
+	border-color:#CCCCCC;
+	border-width:1px;
+	border-style:solid;
+	outline:medium;
+	background-color:#FFFFFF;
+	resize:none;
+	/* height:30px;
+	line-height:30px; */
+	width:auto;
+	font-size:14px;
+	color:#000000;
+	font-family:'Microsoft YaHei' ! important;
+}
+.textarea:hover {
+	border-color:#969696;
+}
+.textarea:focus {
+   	border-color:#2483CB;
 }
 
 .select {
@@ -96,8 +119,8 @@ body {
     font-family:'Microsoft YaHei' ! important;
 }
 .select:hover {
-	border-color:rgb(150, 150, 150);
+	border-color:#969696;
 }
 .select:focus {
-   	border-color:rgb(36, 131, 203);
+   	border-color:#2483CB;
 }
