@@ -23,6 +23,7 @@ public class Shirt implements Serializable {
 	private Integer isActive;
 	private Integer imgType;
 	private String shirtImg;
+	private Integer status;
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private Integer clickNum;
@@ -104,6 +105,12 @@ public class Shirt implements Serializable {
 	}
 	public void setShirtImg(String shirtImg) {
 		this.shirtImg = shirtImg;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	public Timestamp getCreateTime() {
 		return createTime;

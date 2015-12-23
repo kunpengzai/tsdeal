@@ -1,21 +1,29 @@
 package com.itee.tsd.service.impl;
 
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itee.tsd.dao.ShirtDao;
 import com.itee.tsd.dto.PageInfo;
 import com.itee.tsd.dto.SearchInfo;
 import com.itee.tsd.dto.ShirtDTO;
 import com.itee.tsd.entity.Shirt;
+import com.itee.tsd.entity.ShirtParam;
 import com.itee.tsd.service.ShirtManagerService;
+import com.itee.tsd.utils.Config;
 import com.itee.tsd.utils.DateUtils;
+import com.itee.tsd.utils.DownloadUtils;
 import com.itee.tsd.utils.JsonBinder;
 
 /**
@@ -43,6 +51,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		if (StringUtils.isNotBlank(searchInfo.getEndDate())) {
 			shirt.setEndTime(DateUtils.yyyyMMddToTimestamp(searchInfo.getEndDate()));
 		}
+		shirt.setStatus(0);
 		m.put("pageNum", pageInfo.getPageNum());
 		Integer shirtNum = shirtDao.getShirtNum(shirt);
 		m.put("shirtNum", shirtNum);
@@ -52,6 +61,67 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 			List<ShirtDTO> list = shirtDao.getShirtList(shirt);
 			m.put("shirtList", JsonBinder.buildNormalBinder().toJson(list));
 		}
+		return m;
+	}
+	
+	public void addShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException {
+		Shirt newShirt = new Shirt();
+		newShirt.setLinkUrl(shirt.getLinkUrl());
+		newShirt.setTitle(shirt.getTitle());
+		newShirt.setMinPrice(shirt.getMinPrice());
+		newShirt.setMaxPrice(shirt.getMaxPrice());
+		newShirt.setSourceId(shirt.getSourceId());
+		newShirt.setDesign(shirt.getDesign());
+		newShirt.setBrandId(shirt.getBrandId());
+		newShirt.setSleeve(shirt.getSleeve());
+		newShirt.setImgType(shirt.getImgType());
+		newShirt.setIsActive(shirt.getIsActive());
+		if (shirt.getImgType() == 2) {
+			newShirt.setShirtImg(shirt.getShirtImg());
+		}
+		Long shirtId = shirtDao.saveShirt(newShirt);
+		
+		if (StringUtils.isNotBlank(shirt.getColorIds())) {
+			String[] colorIds = shirt.getColorIds().split(",");
+			for (String colorId : colorIds) {
+				ShirtParam shirtParam = new ShirtParam();
+				shirtParam.setShirtId(shirtId);
+				shirtParam.setColorId(Long.valueOf(colorId));
+				shirtParam.setPrice(shirt.getMinPrice());
+				shirtParam.setStatus(0);
+				shirtDao.saveShirtParam(shirtParam);
+			}
+		}
+		if (shirt.getImgType() == 1) {//Upload File
+			if (imageFile != null && imageFile.getSize() > 0) {
+				String originalFilename = imageFile.getOriginalFilename();
+				String extFileName = originalFilename.substring(originalFilename.lastIndexOf("."));
+				String dateStr = DateUtils.dateToyyyyMMddHHmissWithSeparator(
+						new Timestamp(new Date().getTime()));
+				String newFileName = "shirt_" + shirtId + "_" + 
+						new Random().nextInt(10000) + "_" + dateStr + extFileName;
+				
+				DownloadUtils.getFile(imageFile.getInputStream(), newFileName, 
+						Config.getProperty("SAVE_SHIRT_IMG_PATH"));
+				Shirt updateShirt = new Shirt();
+				updateShirt.setId(shirtId);
+				updateShirt.setShirtImg(newFileName);
+				shirtDao.updateShirt(updateShirt);
+			}
+		}
+	}
+	
+	public Map<String, Object> deleteShirt(Long shirtId) {
+		Map<String, Object> m = new HashMap<String, Object>();
+		if (shirtId != null) {
+			Shirt shirt = new Shirt();
+			shirt.setId(shirtId);
+			shirt.setStatus(-1);
+			shirtDao.updateShirt(shirt);
+			m.put("flag", 0);
+			return m;
+		}
+		m.put("flag", 1);
 		return m;
 	}
 }

@@ -1,5 +1,6 @@
 package com.itee.tsd.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -9,10 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itee.tsd.dto.PageInfo;
 import com.itee.tsd.dto.SearchInfo;
+import com.itee.tsd.dto.ShirtDTO;
 import com.itee.tsd.dto.ShirtPropertyDTO;
 import com.itee.tsd.service.BaseService;
 import com.itee.tsd.service.ShirtManagerService;
@@ -50,6 +55,20 @@ public class ShirtManagerController {
 	public Map<String, Object> getShirtList(HttpServletRequest request, 
 			SearchInfo searchInfo, PageInfo pageInfo) {
 		Map<String, Object> m = shirtManagerService.getShirtList(searchInfo, pageInfo);
+		return m;
+	}
+	
+	@RequestMapping ("add-shirt")
+	public String addShirt(HttpServletRequest request, Model model, ShirtDTO shirt, 
+			@RequestParam MultipartFile imageFile) throws IOException {
+		shirtManagerService.addShirt(shirt, imageFile);
+		return "redirect:"+"/sm/shirt-state.htm";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="delete-shirt", produces="application/json;charset=UTF-8", method=RequestMethod.POST)
+	public Map<String, Object> deleteShirt(HttpServletRequest request, Long shirtId) throws IOException {
+		Map<String, Object> m = shirtManagerService.deleteShirt(shirtId);
 		return m;
 	}
 }

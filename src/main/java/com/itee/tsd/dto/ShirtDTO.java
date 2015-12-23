@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 @SuppressWarnings("serial")
 public class ShirtDTO implements Serializable {
-	private Long id;
+	private Long shirtId;
 	private String title;
 	private String linkUrl;
 	private Integer sourceId;
@@ -25,17 +25,19 @@ public class ShirtDTO implements Serializable {
 	private Integer isActive;
 	private Integer imgType;
 	private String shirtImg;
+	private Integer status;
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private Integer clickNum;
 	
-	private String colorNames;//Id以逗号分隔
+	private String colorIds;//Id以逗号分隔
+	private String colorNames;//Name以/分隔
 	
-	public Long getId() {
-		return id;
+	public Long getShirtId() {
+		return shirtId;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setShirtId(Long shirtId) {
+		this.shirtId = shirtId;
 	}
 	public String getTitle() {
 		return title;
@@ -115,6 +117,12 @@ public class ShirtDTO implements Serializable {
 	public void setShirtImg(String shirtImg) {
 		this.shirtImg = shirtImg;
 	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 	public Timestamp getCreateTime() {
 		return createTime;
 	}
@@ -132,6 +140,12 @@ public class ShirtDTO implements Serializable {
 	}
 	public void setClickNum(Integer clickNum) {
 		this.clickNum = clickNum;
+	}
+	public String getColorIds() {
+		return colorIds;
+	}
+	public void setColorIds(String colorIds) {
+		this.colorIds = colorIds;
 	}
 	public String getColorNames() {
 		return colorNames;

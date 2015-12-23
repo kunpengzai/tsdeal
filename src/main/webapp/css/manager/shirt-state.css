@@ -148,7 +148,7 @@
     top:0;
    	background-color:rgba(0,0,0,0.5);
     text-align:center;
-   	/* display:none; */
+   	display:none;
 }
 
 .shirt-add-layer:after {
@@ -162,7 +162,8 @@
 	display:inline-block;
     vertical-align:middle;
 	width:500px;
-	height:575px;
+	/* min-height:500px; */
+	min-height:575px;
 	background-color:#FAFAFA;
 	border-radius:10px;
 	line-height:1;
@@ -179,7 +180,7 @@
 	line-height:50px;
 	font-size:17px;
 	border-radius:10px 10px 0 0;
-	background-color:#4b9fdf;
+	background-color:#4B9FDF;
 	color:#FFFFFF;
 	width:100%;
 	text-align:left;
@@ -256,7 +257,8 @@
 }
 
 .shirt-add-item-source,
-.shirt-add-item-brand {
+.shirt-add-item-brand,
+.shirt-add-item-active {
 	margin:0 20px 0 30px;
 }
 
@@ -301,15 +303,23 @@
 }
 
 .shirt-add-s-btn {
-	margin:20px 30px 0 0;
-	float:right;
+	margin:20px 30px 0 20px;
+	width:100%;
 }
 
-.shirt-add-s-btn span {
+.shirt-add-btn {
 	width:60px;
 }
 
-
+.shirt-add-error-msg {
+	text-align:left;
+	width:387px;
+	height:30px;
+	line-height:30px;
+	font-size:14px;
+	color:#D2494A;
+	display:inline-block;
+}
 
 
 /*************************shirt add end***********************/
@@ -353,7 +363,7 @@
 	line-height:50px;
 	font-size:17px;
 	border-radius:10px 10px 0 0;
-	background-color:#4b9fdf;
+	background-color:#4B9FDF;
 	color:#FFFFFF;
 	width:100%;
 	text-align:left;
@@ -369,3 +379,77 @@
 	float:right;
 }
 /*************shirt edit end*******************/
+
+
+/*************************shirt delete start********************/
+.shirt-del-layer {
+	width:100%;
+	height:100%;
+    position:fixed;
+    top:0;
+   	background-color:rgba(0,0,0,0.5);
+    text-align:center;
+   	display:none;
+}
+
+.shirt-del-layer:after {
+    content:'';
+    display:inline-block;
+    vertical-align:middle;
+    height:100%;
+}
+
+.shirt-del-part {
+	display:inline-block;
+    vertical-align:middle;
+	width:404px;
+	height:200px;
+	background-color:#FAFAFA;
+	border-radius:10px;
+	line-height:1;
+	font-family:'Microsoft YaHei' ! important;
+  	box-shadow:
+	  	-3px 0 15px rgba(0,0,0,0.1),/*左边阴影*/  
+		3px 0 15px rgba(0,0,0,0.1),/*右边阴影*/
+		0 -3px 15px rgba(0,0,0,0.1), /*顶部阴影*/ 
+		0 3px 15px rgba(0,0,0,0.1); /*底边阴影*/
+}
+
+.shirt-del-part-title {
+	height:50px;
+	line-height:50px;
+	font-size:17px;
+	border-radius:10px 10px 0 0;
+	background-color:#D44846;
+	color:#FFFFFF;
+	width:100%;
+	text-align:left;
+}
+
+.shirt-del-part-title-left {
+	padding:0 0 0 36px;
+}
+
+.shirt-del-part-title-right {
+	margin:0 20px 0 0;
+	cursor: pointer;
+	float:right;
+}
+
+.shirt-del-content {
+	padding:20px 20px 0 28px;
+	text-align:left;
+	font-size:14px;
+	color:#656565;
+	line-height:1.8;
+}
+
+.shirt-del-s-btn {
+	margin:20px 30px 0 0;
+	text-align:right;
+}
+
+.shirt-del-btn {
+	width:60px;
+}
+/*************shirt delete end*******************/
