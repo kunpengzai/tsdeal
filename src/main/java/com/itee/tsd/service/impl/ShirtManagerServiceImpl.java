@@ -51,7 +51,8 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 			shirt.setBeginTime(DateUtils.yyyyMMddToTimestamp(searchInfo.getBeginDate()));
 		}
 		if (StringUtils.isNotBlank(searchInfo.getEndDate())) {
-			shirt.setEndTime(DateUtils.yyyyMMddToTimestamp(searchInfo.getEndDate()));
+			Date endDate = DateUtils.addOrMinusDate(DateUtils.yyyyMMddToDate(searchInfo.getEndDate()), 5, 1);
+			shirt.setEndTime(new Timestamp(endDate.getTime()));
 		}
 		shirt.setStatus(0);
 		m.put("pageNum", pageInfo.getPageNum());
@@ -161,7 +162,8 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				if (shirt.getImgType() == 1 && imageFile != null && imageFile.getSize() > 0) {
 					String newFileName = uploadFile(imageFile, shirt.getShirtId());
 					updateShirt.setShirtImg(newFileName);
-				} else {
+				}
+				if (shirt.getImgType() == 2) {
 					updateShirt.setShirtImg(shirt.getShirtImg());
 				}
 				shirtDao.updateShirt(updateShirt);

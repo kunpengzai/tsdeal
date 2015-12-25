@@ -156,7 +156,7 @@
 					<input type="text" id="shirt-add-img-url" name="shirtImg" class='input' />
 				</div>
 				<div class="shirt-add-s-btn">
-					<span class="shirt-add-error-msg"></span>
+					<span class="shirt-add-error-msg" id="shirt-add-error"></span>
 					<span class="blue-btn shirt-add-btn" onclick="addShirt();">确定</span>
 				</div>
 			</div>
@@ -254,7 +254,7 @@
 					<input type="text" id="shirt-edit-img-url" name="shirtImg" class='input' />
 				</div>
 				<div class="shirt-add-s-btn">
-					<span class="shirt-add-error-msg"></span>
+					<span class="shirt-add-error-msg" id="shirt-edit-error"></span>
 					<span class="blue-btn shirt-add-btn" onclick="editShirt();">确定</span>
 				</div>
 			</div>

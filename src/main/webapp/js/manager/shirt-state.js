@@ -115,6 +115,14 @@ function hideShirtDeleteLayer() {
 	$(".shirt-del-layer").hide();
 }
 
+function errorMsg(type, content) {
+	$("#shirt-"+type+"-error").text(content);
+	$("#shirt-"+type+"-error").css("opacity", 1);
+	setTimeout(function() {
+		$("#shirt-"+type+"-error").css("opacity", 0);
+	},1000);
+}
+
 function selectImgType(type, imgType) {
 	if (imgType == null) {
 		imgType = $("#shirt-"+type+"-imgType").val();
@@ -162,104 +170,135 @@ function setUploadFile(type) {
 function addShirt() {
 	var linkUrl = $("#shirt-add-link-url").val();
 	if ($.trim(linkUrl) == "") {
-		$(".shirt-add-error-msg").text("商品链接不能为空。");
+		errorMsg('add', "商品链接不能为空。");
 		return;
 	}
 	var title = $("#shirt-add-title").val();
 	if ($.trim(title) == "") {
-		$(".shirt-add-error-msg").text("标题不能为空。");
+		errorMsg('add', "标题不能为空。");
 		return;
 	}
 	var price = $("#shirt-add-min-price").val();
 	if ($.trim(price) == "") {
-		$(".shirt-add-error-msg").text("价格不能为空。");
+		errorMsg('add', "价格不能为空。");
 		return;
 	}
 	$("#shirt-add-max-price").val(price);
 	
 	var sourceId = $("#shirt-add-source").val();
 	if (sourceId == 0) {
-		$(".shirt-add-error-msg").text("请选择来源。");
+		errorMsg('add', "请选择来源。");
 		return;
 	}
 	
 	var design = $("#shirt-add-design").val();
 	if (design == 0) {
-		$(".shirt-add-error-msg").text("请选择图案。");
+		errorMsg('add', "请选择图案。");
 		return;
 	}
 	
 	var brandId = $("#shirt-add-brandId").val();
 	if (brandId == 0) {
-		$(".shirt-add-error-msg").text("请选择品牌。");
+		errorMsg('add', "请选择品牌。");
 		return;
 	}
 	
 	var colorIds = $("#shirt-add-shirt-color").val();
 	if ($.trim(colorIds) == "") {
-		$(".shirt-add-error-msg").text("请选择颜色。");
+		errorMsg('add', "请选择颜色。");
 		return;
 	}
-	$("#shirt-add-shirt-color").val(colorIds.substring(0, colorIds.length-1));
 	
 	var sleeve = $("#shirt-add-sleeve").val();
 	if (sleeve == 0) {
-		$(".shirt-add-error-msg").text("请选择袖长。");
+		errorMsg('add', "请选择袖长。");
 		return;
 	}
 	
+	var imgType = $("#shirt-add-imgType").val();
+	if (imgType == 1) {
+		var filename = $("#shirt-add-upload-file").val();
+		if ($.trim(filename) == "") {
+			errorMsg('add', "请选择上传图片。");
+			return;
+		}
+	} else if (imgType == 2) {
+		var shirtImgUrl = $("#shirt-add-img-url").val();
+		if ($.trim(shirtImgUrl) == "") {
+			errorMsg('add', "请填写图片链接。");
+			return;
+		}
+	}
+	
+	$("#shirt-add-shirt-color").val(colorIds.substring(0, colorIds.length-1));
 	$("#addShirtForm").submit();
 }
 
 function editShirt() {
 	var linkUrl = $("#shirt-edit-link-url").val();
 	if ($.trim(linkUrl) == "") {
-		$(".shirt-edit-error-msg").text("商品链接不能为空。");
+		errorMsg('edit', "商品链接不能为空。");
 		return;
 	}
 	var title = $("#shirt-edit-title").val();
 	if ($.trim(title) == "") {
-		$(".shirt-edit-error-msg").text("标题不能为空。");
+		errorMsg('edit', "标题不能为空。");
 		return;
 	}
 	var price = $("#shirt-edit-min-price").val();
 	if ($.trim(price) == "") {
-		$(".shirt-edit-error-msg").text("价格不能为空。");
+		errorMsg('edit', "价格不能为空。");
 		return;
 	}
 	$("#shirt-edit-max-price").val(price);
 	
 	var sourceId = $("#shirt-edit-source").val();
 	if (sourceId == 0) {
-		$(".shirt-edit-error-msg").text("请选择来源。");
+		errorMsg('edit', "请选择来源。");
 		return;
 	}
 	
 	var design = $("#shirt-edit-design").val();
 	if (design == 0) {
-		$(".shirt-edit-error-msg").text("请选择图案。");
+		errorMsg('edit', "请选择图案。");
 		return;
 	}
 	
 	var brandId = $("#shirt-edit-brandId").val();
 	if (brandId == 0) {
-		$(".shirt-edit-error-msg").text("请选择品牌。");
+		errorMsg('edit', "请选择品牌。");
 		return;
 	}
 	
 	var colorIds = $("#shirt-edit-shirt-color").val();
 	if ($.trim(colorIds) == "") {
-		$(".shirt-edit-error-msg").text("请选择颜色。");
+		errorMsg('edit', "请选择颜色。");
 		return;
 	}
-	$("#shirt-edit-shirt-color").val(colorIds.substring(0, colorIds.length-1));
 	
 	var sleeve = $("#shirt-edit-sleeve").val();
 	if (sleeve == 0) {
-		$(".shirt-edit-error-msg").text("请选择袖长。");
+		errorMsg('edit', "请选择袖长。");
 		return;
 	}
 	
+	var imgType = $("#shirt-edit-imgType").val();
+	if (imgType == 1) {
+		var filename = $("#shirt-edit-upload-file").val();
+		var imgname = $("#shirt-edit-upload-filename").text();
+		if (($.trim(imgname) == "请选择" || $.trim(imgname) == "") && $.trim(filename) == "") {
+			errorMsg('edit', "请选择上传图片。");
+			return;
+		}
+	} else if (imgType == 2) {
+		var shirtImgUrl = $("#shirt-edit-img-url").val();
+		if ($.trim(shirtImgUrl) == "") {
+			errorMsg('edit', "请填写图片链接。");
+			return;
+		}
+	}
+	
+	$("#shirt-edit-shirt-color").val(colorIds.substring(0, colorIds.length-1));
 	$("#editShirtForm").submit();
 }
 
