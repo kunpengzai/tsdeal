@@ -1,6 +1,6 @@
 .shirt-state {
 	margin:0 auto;
-	width:1000px;
+	width:1150px;
 }
 
 .shirt-state-title {
@@ -52,8 +52,7 @@
 }
 
 .shirt-state-info {
-	padding:0 20px 0 20px;
-	width:960px;
+	width:100%;
 }
 
 .shirt-state-table {
@@ -61,7 +60,7 @@
 	font-size:11px;
 	color:#333333;
 	border-width:1px;
-	border-color:#666666;
+	border-color:#E5E5E5;
 	border-collapse:collapse;
 	text-align:center;
 }
@@ -70,8 +69,8 @@
 	border-width:1px;
 	padding:8px;
 	border-style:solid;
-	border-color:#666666;
-	background-color:#dedede;
+	border-color:#E5E5E5;
+	background-color:#E5E5E5;
 }
 
 .shirt-s-t-th-1 {
@@ -79,7 +78,7 @@
 }
 
 .shirt-s-t-th-2 {
-	width:240px;
+	width:275px;
 }
 
 .shirt-s-t-th-3 {
@@ -87,11 +86,11 @@
 }
 
 .shirt-s-t-th-4 {
-	width:70px;
+	width:100px;
 }
 
 .shirt-s-t-th-5 {
-	width:30px;
+	width:50px;
 }
 
 .shirt-s-t-th-6 {
@@ -99,7 +98,7 @@
 }
 
 .shirt-s-t-th-7 {
-	width:45px;
+	width:50px;
 }
 
 .shirt-s-t-th-8 {
@@ -107,36 +106,36 @@
 }
 
 .shirt-s-t-th-9 {
-	width:110px;
+	width:140px;
 }
 
 .shirt-s-t-th-10 {
-	width:25px;
+	width:35px;
 }
 
 .shirt-state-table td {
 	border-width:1px;
 	padding:8px;
 	border-style:solid;
-	border-color:#666666;
+	border-color:#E5E5E5;
 	background-color:#ffffff;
 }
 
 .shirt-s-t-td-opt-1 {
-	color:#0000FF;
-	font-weight:bolder;
+	width:50px;
+	color:#FFFFFF;
 	cursor:pointer;
 }
 
 .shirt-s-t-td-opt-2 {
-	color:#0000FF;
-	font-weight:bolder;
+	width:50px;
+	color:#FFFFFF;
 	cursor:pointer;
 }
 
 .shirt-s-t-td-opt-3 {
-	color:#FF0000;
-	font-weight:bolder;
+	width:50px;
+	color:#FFFFFF;
 	cursor:pointer;
 }
 
@@ -292,14 +291,26 @@
 	display:inline-block;
 	border-radius:4px;
 	border-color:#CCCCCC;
-	/* color:#FFFFFF;
-	background-color:#2483CB; */
 	border-width:1px;
 	border-style:solid;
 }
 
 .shirt-add-s-sleeve {
 	margin:5px 0 0 20px;
+}
+
+.shirt-add-item-uf-input {
+	margin:-31px 0 0 88px;
+}
+
+.shirt-add-sel-btn {
+	width:90px;
+	display:inline-block;
+}
+
+.shirt-add-sel-filename {
+	padding:0 0 0 10px;
+	font-size:14px;
 }
 
 .shirt-add-s-btn {
@@ -345,8 +356,8 @@
 .shirt-edit-part {
 	display:inline-block;
     vertical-align:middle;
-	width:404px;
-	height:276px;
+	width:500px;
+	min-height:575px;
 	background-color:#FAFAFA;
 	border-radius:10px;
 	line-height:1;

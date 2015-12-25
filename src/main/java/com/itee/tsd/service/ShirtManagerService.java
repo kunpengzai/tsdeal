@@ -19,7 +19,11 @@ public interface ShirtManagerService {
 
 	public Map<String, Object> getShirtList(SearchInfo searchInfo, PageInfo pageInfo);
 	
+	public Map<String, Object> shirtDetail(Long shirtId);
+	
 	public void addShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException;
 	
 	public Map<String, Object> deleteShirt(Long shirtId);
+	
+	public void editShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException;
 }

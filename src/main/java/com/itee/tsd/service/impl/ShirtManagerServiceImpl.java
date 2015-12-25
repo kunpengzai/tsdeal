@@ -1,7 +1,9 @@
 package com.itee.tsd.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +66,22 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		return m;
 	}
 	
+	public Map<String, Object> shirtDetail(Long shirtId) {
+		Map<String, Object> m = new HashMap<String, Object>();
+		if (shirtId != null) {
+			m.put("flag", 0);
+			ShirtDTO shirt = shirtDao.getShirt(shirtId);
+			if (shirt != null) {
+				List<ShirtDTO> list = new ArrayList<ShirtDTO>();
+				list.add(shirt);
+				m.put("shirtList", JsonBinder.buildNormalBinder().toJson(list));
+				return m;
+			}
+		}
+		m.put("flag", 1);
+		return m;
+	}
+	
 	public void addShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException {
 		Shirt newShirt = new Shirt();
 		newShirt.setLinkUrl(shirt.getLinkUrl());
@@ -94,15 +112,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		}
 		if (shirt.getImgType() == 1) {//Upload File
 			if (imageFile != null && imageFile.getSize() > 0) {
-				String originalFilename = imageFile.getOriginalFilename();
-				String extFileName = originalFilename.substring(originalFilename.lastIndexOf("."));
-				String dateStr = DateUtils.dateToyyyyMMddHHmissWithSeparator(
-						new Timestamp(new Date().getTime()));
-				String newFileName = "shirt_" + shirtId + "_" + 
-						new Random().nextInt(10000) + "_" + dateStr + extFileName;
-				
-				DownloadUtils.getFile(imageFile.getInputStream(), newFileName, 
-						Config.getProperty("SAVE_SHIRT_IMG_PATH"));
+				String newFileName = uploadFile(imageFile, shirtId);
 				Shirt updateShirt = new Shirt();
 				updateShirt.setId(shirtId);
 				updateShirt.setShirtImg(newFileName);
@@ -123,5 +133,78 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		}
 		m.put("flag", 1);
 		return m;
+	}
+	
+	public void editShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException {
+		if (shirt.getShirtId() != null) {
+			ShirtDTO dto = shirtDao.getShirt(shirt.getShirtId());
+			if (dto != null) {
+				Shirt updateShirt = new Shirt();
+				updateShirt.setId(shirt.getShirtId());
+				updateShirt.setLinkUrl(shirt.getLinkUrl());
+				updateShirt.setTitle(shirt.getTitle());
+				updateShirt.setMinPrice(shirt.getMinPrice());
+				updateShirt.setMaxPrice(shirt.getMaxPrice());
+				updateShirt.setSourceId(shirt.getSourceId());
+				updateShirt.setDesign(shirt.getDesign());
+				updateShirt.setBrandId(shirt.getBrandId());
+				updateShirt.setSleeve(shirt.getSleeve());
+				updateShirt.setImgType(shirt.getImgType());
+				updateShirt.setIsActive(shirt.getIsActive());
+				if (dto.getImgType() == 1) {
+					if (shirt.getImgType() == 2) {
+						deleteFile(Config.getProperty("SAVE_SHIRT_IMG_PATH") + dto.getShirtImg());
+					} else if (shirt.getImgType() == 1 && imageFile != null && imageFile.getSize() > 0) {
+						deleteFile(Config.getProperty("SAVE_SHIRT_IMG_PATH") + dto.getShirtImg());
+					}
+				}
+				if (shirt.getImgType() == 1 && imageFile != null && imageFile.getSize() > 0) {
+					String newFileName = uploadFile(imageFile, shirt.getShirtId());
+					updateShirt.setShirtImg(newFileName);
+				} else {
+					updateShirt.setShirtImg(shirt.getShirtImg());
+				}
+				shirtDao.updateShirt(updateShirt);
+				
+				if (StringUtils.isNotBlank(dto.getColorIds())) {
+					ShirtParam shirtParam = new ShirtParam();
+					shirtParam.setShirtId(shirt.getShirtId());
+					shirtParam.setStatus(-1);
+					shirtDao.updateShirtParam(shirtParam);
+				}
+				if (StringUtils.isNotBlank(shirt.getColorIds())) {
+					String[] colorIds = shirt.getColorIds().split(",");
+					for (String colorId : colorIds) {
+						ShirtParam shirtParam = new ShirtParam();
+						shirtParam.setShirtId(shirt.getShirtId());
+						shirtParam.setColorId(Long.valueOf(colorId));
+						shirtParam.setPrice(shirt.getMinPrice());
+						shirtParam.setStatus(0);
+						shirtDao.saveShirtParam(shirtParam);
+					}
+				}
+			}
+		}
+	}
+	
+	private String uploadFile(MultipartFile imageFile, Long shirtId) throws IOException {
+		String originalFilename = imageFile.getOriginalFilename();
+		String extFileName = originalFilename.substring(originalFilename.lastIndexOf("."));
+		String dateStr = DateUtils.dateToyyyyMMddHHmissWithSeparator(
+				new Timestamp(new Date().getTime()));
+		String newFileName = "shirt_" + shirtId + "_" + 
+				new Random().nextInt(10000) + "_" + dateStr + extFileName;
+		
+		DownloadUtils.getFile(imageFile.getInputStream(), newFileName, 
+				Config.getProperty("SAVE_SHIRT_IMG_PATH"));
+		return newFileName;
+	}
+	
+	private boolean deleteFile(String fielName) {
+		File file = new File(fielName);
+		if (file.exists()) {
+			return file.delete();
+		}
+		return true;
 	}
 }

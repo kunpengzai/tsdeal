@@ -44,6 +44,7 @@
 				and s.status=#{status} 
 			</if>
 		</where>
+		order by s.createTime desc 
 		<if test="pageNum != null and pageSize != null">
 			limit ${(pageNum-1) * pageSize}, ${pageSize} 
 		</if>
@@ -91,10 +92,10 @@
 		</if>
 	</select>
 	
-	<select id="getShirt" parameterType="Integer" resultType="com.itee.tsd.dto.ShirtDTO">
+	<select id="getShirt" parameterType="Long" resultType="com.itee.tsd.dto.ShirtDTO">
 		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,
 			s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,
-			(select group_concat(sp.colorId separator '=') from shirt_param sp where sp.shirtId=s.id) colorIds 
+			(select group_concat(sp.colorId separator ',') from shirt_param sp where sp.shirtId=s.id and sp.status=0) colorIds 
 		from shirt s where s.id=#{shirtId} limit 1 
 	</select>
 	
@@ -153,7 +154,14 @@
 			</if>
 			updateTime=now() 
 		</set>
-		where shirtId=#{shirtId} and colorId=#{colorId} 
+		<where>
+			<if test="shirtId != null">
+				shirtId=#{shirtId} 
+			</if>
+			<if test="colorId != null">
+				and colorId=#{colorId} 
+			</if>
+		</where>
 	</update>
 	
 	<update id="updateShirtLog" parameterType="Map">

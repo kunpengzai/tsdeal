@@ -63,23 +63,6 @@
   				</thead>
   				<tbody id="shirt-state-data">
                 </tbody>
-  				<!-- <tr>
-  					<td>1</td>
-  					<td>标题</td>
-	  				<td>天猫</td>
-	  				<td>无印良品</td>
-	  				<td>1234567</td>
-	  				<td>6000</td>
-	  				<td>是</td>
-	  				<td>有图案</td>
-	  				<td>黑色/白色/黑色</td>
-	  				<td>长袖</td>
-	  				<td>
-	  					<span class="shirt-s-t-td-opt-1">查看</span>
-	  					<span class="shirt-s-t-td-opt-2">编辑</span>
-	  					<span class="shirt-s-t-td-opt-3">删除</span>
-	  				</td>
-  				</tr> -->
   			</table>
   		</div>
   	</div>
@@ -135,7 +118,7 @@
 					<input type="hidden" id="shirt-add-shirt-color" name="colorIds" />
 					<span class="shirt-add-item-color">
 						<c:forEach items="${colorList}" var="color" varStatus="status">
-	  						<span id="shirt-add-color-${color.id}" onclick="selColorInAddShirt(${color.id});">${color.name}</span>
+	  						<span id="shirt-add-color-${color.id}" onclick="selColorInShirt('add',${color.id});">${color.name}</span>
 	  					</c:forEach>
 					</span>
 				</div>
@@ -147,7 +130,7 @@
   						<option value="2">短袖</option>
 	  				</select>
 	  				<span class="shirt-add-item-active">链接状态</span>
-	  				<select class="shirt-add-active-sel select" name="isActive">
+	  				<select class="shirt-add-active-sel select" id="shirt-add-isActive" name="isActive">
 	  					<option value="1" selected="selected">有效</option>
 	  					<option value="2">无效</option>
 	  				</select>
@@ -155,16 +138,20 @@
 				<div class="shirt-add-s-imgType">
 					<span class="shirt-add-item-imgType">图片类型</span>
 					<!-- <input type="hidden" id="shirt-add-shirt-img" name="shirtImg" class='input' /> -->
-					<select class="shirt-add-imgType-sel select" name="imgType" onchange="selectImgType();">
+					<select class="shirt-add-imgType-sel select" id="shirt-add-imgType" name="imgType" onchange="selectImgType('add');">
   						<option value="1" selected="selected">上传图片</option>
   						<option value="2">图片链接</option>
 	  				</select>
 				</div>
-				<div class="shirt-add-s-uploadfile">
+				<div class="shirt-add-s-uploadfile" id="shirt-add-uploadfile-id">
 					<span class="shirt-add-item-uploadfile">上传图片</span>
-					<input type="file" id="shirt-add-upload-file" class='input' name="imageFile" />
+					<span class="blue-btn shirt-add-sel-btn">选择文件</span>
+					<span class="shirt-add-sel-filename" id="shirt-add-upload-filename">请选择</span>
+					<div class="shirt-add-item-uf-input">
+						<input type="file" id="shirt-add-upload-file" name="imageFile" style="opacity:0;" onchange="setUploadFile('add');" />
+					</div>
 				</div>
-				<div class="shirt-add-s-imgUrl" style="display:none;">
+				<div class="shirt-add-s-imgUrl" id="shirt-add-imgUrl-id" style="display:none;">
 					<span class="shirt-add-item-imgUrl">图片链接</span>
 					<input type="text" id="shirt-add-img-url" name="shirtImg" class='input' />
 				</div>
@@ -186,6 +173,92 @@
 					<img src="../img/layer_close.png" width="16px" height="16px"/>
 				</span>
 			</div>
+			<form role="form" enctype="multipart/form-data" id="editShirtForm" action="edit-shirt.htm" method="post">
+			<div class="shirt-add-content">
+				<input type="hidden" id="shirt-edit-id" name="shirtId" value=""/>
+				<div class="shirt-add-s-url">
+					<span>商品链接</span>
+					<input type="text" id="shirt-edit-link-url" name="linkUrl" class='input' />
+				</div>
+				<div class="shirt-add-s-title">
+					<span>标题</span>
+					<textarea id="shirt-edit-title" name="title" class='textarea'></textarea>
+				</div>
+				<div class="shirt-add-s-price">
+					<span class="shirt-add-item-price">售价</span>
+					<input type="text" id="shirt-edit-min-price" name="minPrice" class='input' /> 元
+					<input type="hidden" id="shirt-edit-max-price" name="maxPrice" />
+					<span class="shirt-add-item-source">来源</span>
+					<select class="shirt-add-source-sel select" id="shirt-edit-source" name="sourceId">
+	  					<option value="0" selected="selected">请选择</option>
+	  					<c:forEach items="${sourceList}" var="source" varStatus="status">
+	  						<option value="${source.id}">${source.name}</option>
+	  					</c:forEach>
+	  				</select>
+				</div>
+				<div class="shirt-add-s-design">
+					<span class="shirt-add-item-design">图案</span>
+					<select class="shirt-add-design-sel select" id="shirt-edit-design" name="design">
+	  					<option value="0" selected="selected">请选择</option>
+  						<option value="1">纯色</option>
+  						<option value="2">有图案</option>
+	  				</select>
+					<span class="shirt-add-item-brand">品牌</span>
+					<select class="shirt-add-brand-sel select" id="shirt-edit-brandId" name="brandId">
+	  					<option value="0" selected="selected">请选择</option>
+	  					<c:forEach items="${brandList}" var="brand" varStatus="status">
+	  						<option value="${brand.id}">${brand.name}</option>
+	  					</c:forEach>
+	  				</select>
+				</div>
+				<div class="shirt-add-s-color">
+					<span class="shirt-add-item-color-label">颜色</span>
+					<input type="hidden" id="shirt-edit-shirt-color" name="colorIds" />
+					<span class="shirt-add-item-color">
+						<c:forEach items="${colorList}" var="color" varStatus="status">
+	  						<span id="shirt-edit-color-${color.id}" onclick="selColorInShirt('edit',${color.id});">${color.name}</span>
+	  					</c:forEach>
+					</span>
+				</div>
+				<div class="shirt-add-s-sleeve">
+					<span class="shirt-add-item-sleeve">袖长</span>
+					<select class="shirt-add-sleeve-sel select" id="shirt-edit-sleeve" name="sleeve">
+	  					<option value="0" selected="selected">请选择</option>
+  						<option value="1">长袖</option>
+  						<option value="2">短袖</option>
+	  				</select>
+	  				<span class="shirt-add-item-active">链接状态</span>
+	  				<select class="shirt-add-active-sel select" id="shirt-edit-isActive" name="isActive">
+	  					<option value="1" selected="selected">有效</option>
+	  					<option value="2">无效</option>
+	  				</select>
+				</div>
+				<div class="shirt-add-s-imgType">
+					<span class="shirt-add-item-imgType">图片类型</span>
+					<!-- <input type="hidden" id="shirt-edit-shirt-img" name="shirtImg" class='input' /> -->
+					<select class="shirt-add-imgType-sel select" id="shirt-edit-imgType" name="imgType" onchange="selectImgType('edit');">
+  						<option value="1" selected="selected">上传图片</option>
+  						<option value="2">图片链接</option>
+	  				</select>
+				</div>
+				<div class="shirt-add-s-uploadfile" id="shirt-edit-uploadfile-id">
+					<span class="shirt-add-item-uploadfile">上传图片</span>
+					<span class="blue-btn shirt-add-sel-btn">选择文件</span>
+					<span class="shirt-add-sel-filename" id="shirt-edit-upload-filename">请选择</span>
+					<div class="shirt-add-item-uf-input">
+						<input type="file" id="shirt-edit-upload-file" name="imageFile" style="opacity:0;" onchange="setUploadFile('edit');" />
+					</div>
+				</div>
+				<div class="shirt-add-s-imgUrl" id="shirt-edit-imgUrl-id" style="display:none;">
+					<span class="shirt-add-item-imgUrl">图片链接</span>
+					<input type="text" id="shirt-edit-img-url" name="shirtImg" class='input' />
+				</div>
+				<div class="shirt-add-s-btn">
+					<span class="shirt-add-error-msg"></span>
+					<span class="blue-btn shirt-add-btn" onclick="editShirt();">确定</span>
+				</div>
+			</div>
+			</form>
 		</div>
 	</div>
 	

@@ -58,6 +58,14 @@ public class ShirtManagerController {
 		return m;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="shirt-detail", produces="application/json;charset=UTF-8", method=RequestMethod.GET)
+	public Map<String, Object> shirtDetail(HttpServletRequest request, Long shirtId) throws IOException {
+		Map<String, Object> m = shirtManagerService.shirtDetail(shirtId);
+		return m;
+	}
+	
+	
 	@RequestMapping ("add-shirt")
 	public String addShirt(HttpServletRequest request, Model model, ShirtDTO shirt, 
 			@RequestParam MultipartFile imageFile) throws IOException {
@@ -70,5 +78,12 @@ public class ShirtManagerController {
 	public Map<String, Object> deleteShirt(HttpServletRequest request, Long shirtId) throws IOException {
 		Map<String, Object> m = shirtManagerService.deleteShirt(shirtId);
 		return m;
+	}
+	
+	@RequestMapping ("edit-shirt")
+	public String editShirt(HttpServletRequest request, Model model, ShirtDTO shirt, 
+			@RequestParam MultipartFile imageFile) throws IOException {
+		shirtManagerService.editShirt(shirt, imageFile);
+		return "redirect:"+"/sm/shirt-state.htm";
 	}
 }

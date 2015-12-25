@@ -62,12 +62,12 @@ function getShirtList() {
 							+ '<td>'+item.minPrice+'</td>'
 							+ '<td>'+(item.isActive==1?'是':'否')+'</td>'
 							+ '<td>'+(item.design==1?'纯色':'有图案')+'</td>'
-							+ '<td>'+item.colorNames+'</td>'
+							+ '<td>'+(item.colorNames!=null?item.colorNames:'-')+'</td>'
 							+ '<td>'+(item.sleeve==1?'长袖':'短袖')+'</td>'
 							+ '<td>'
-							+ '<span class="shirt-s-t-td-opt-1" onclick="showShirtDetail(\''+item.linkUrl+'\');">查看</span> '
-							+ '<span class="shirt-s-t-td-opt-2" onclick="showShirtEditLayer('+item.shirtId+');">编辑</span> '
-							+ '<span class="shirt-s-t-td-opt-3" onclick="showShirtDeleteLayer('+item.shirtId+');">删除</span>'
+							+ '<span class="blue-btn shirt-s-t-td-opt-1" onclick="showShirtBuyPage(\''+item.linkUrl+'\');">查看</span> '
+							+ '<span class="blue-btn shirt-s-t-td-opt-2" onclick="showShirtEditLayer('+item.shirtId+');">编辑</span> '
+							+ '<span class="red-btn shirt-s-t-td-opt-3" onclick="showShirtDeleteLayer('+item.shirtId+');">删除</span>'
 							+ '</td>'
 						+ '</tr>'
 					);
@@ -84,6 +84,7 @@ function searchShirt() {
 }
 
 function showShirtAddLayer() {
+	resetLayer('add');
 	$(".shirt-add-layer").show();
 }
 
@@ -91,16 +92,18 @@ function hideShirtAddLayer() {
 	$(".shirt-add-layer").hide();
 }
 
-function showShirtDetail(linkUrl) {
+function showShirtBuyPage(linkUrl) {
 	window.open(linkUrl); 
 }
 
-function showShirtEditLayer() {
+function showShirtEditLayer(shirtId) {
+	getShirtDetail(shirtId);
 	$(".shirt-edit-layer").show();
 }
 
 function hideShirtEditLayer() {
 	$(".shirt-edit-layer").hide();
+	resetLayer('edit');
 }
 
 function showShirtDeleteLayer(shirtId) {
@@ -112,32 +115,48 @@ function hideShirtDeleteLayer() {
 	$(".shirt-del-layer").hide();
 }
 
-function selectImgType() {
-	var imgType = $(".shirt-add-imgType-sel").val();
-	$(".shirt-add-s-uploadfile").hide();
-	$(".shirt-add-s-imgUrl").hide();
+function selectImgType(type, imgType) {
+	if (imgType == null) {
+		imgType = $("#shirt-"+type+"-imgType").val();
+	} else {
+		$("#shirt-"+type+"-imgType").val(imgType);
+	}
+	$("#shirt-"+type+"-uploadfile-id").hide();
+	$("#shirt-"+type+"-imgUrl-id").hide();
 	if (imgType == 1) {
-		$(".shirt-add-s-uploadfile").show();
+		$("#shirt-"+type+"-upload-filename").text("请选择");
+		$("#shirt-"+type+"-uploadfile-id").show();
 	} else if (imgType == 2) {
-		$(".shirt-add-s-imgUrl").show();
+		$("#shirt-"+type+"-imgUrl-id").show();
 	}
 }
 
-function selColorInAddShirt(colorId) {
-	var colorIds = $("#shirt-add-shirt-color").val();
-	if ($("#shirt-add-color-"+colorId).css("border-color")=="rgb(204, 204, 204)") {
-		$("#shirt-add-color-"+colorId).css("border-color", "#2483CB");
-		$("#shirt-add-color-"+colorId).css("background-color", "#2483CB");
-		$("#shirt-add-color-"+colorId).css("color", "#FFFFFF");
-		colorIds += colorId + ",";
-		$("#shirt-add-shirt-color").val(colorIds);
-	} else {
-		$("#shirt-add-color-"+colorId).css("border-color", "#CCCCCC");
-		$("#shirt-add-color-"+colorId).css("background-color", "#FFFFFF");
-		$("#shirt-add-color-"+colorId).css("color", "#000000");
-		colorIds = colorIds.replace(colorId + ",", "");;
-		$("#shirt-add-shirt-color").val(colorIds);
+function selColorInShirt(type, colorId) {
+	var colorIds = $("#shirt-"+type+"-shirt-color").val();
+	if (colorIds.length > 0 && colorIds.lastIndexOf(",") != (colorIds.length-1)) {
+		colorIds += ",";
 	}
+	if ($("#shirt-"+type+"-color-"+colorId).css("border-color")=="rgb(204, 204, 204)") {
+		$("#shirt-"+type+"-color-"+colorId).css("border-color", "#2483CB");
+		$("#shirt-"+type+"-color-"+colorId).css("background-color", "#2483CB");
+		$("#shirt-"+type+"-color-"+colorId).css("color", "#FFFFFF");
+		if (colorIds.indexOf(colorId + ",") == -1) {
+			colorIds += colorId + ",";
+		}
+		$("#shirt-"+type+"-shirt-color").val(colorIds);
+	} else {
+		$("#shirt-"+type+"-color-"+colorId).css("border-color", "#CCCCCC");
+		$("#shirt-"+type+"-color-"+colorId).css("background-color", "#FFFFFF");
+		$("#shirt-"+type+"-color-"+colorId).css("color", "#000000");
+		colorIds = colorIds.replace(colorId + ",", "");
+		$("#shirt-"+type+"-shirt-color").val(colorIds);
+	}
+}
+
+function setUploadFile(type) {
+	var filename = $("#shirt-"+type+"-upload-file").val();
+	var index = filename.lastIndexOf("\\") + 1;
+	$("#shirt-"+type+"-upload-filename").text(filename.substring(index, filename.length));
 }
 
 function addShirt() {
@@ -192,6 +211,58 @@ function addShirt() {
 	$("#addShirtForm").submit();
 }
 
+function editShirt() {
+	var linkUrl = $("#shirt-edit-link-url").val();
+	if ($.trim(linkUrl) == "") {
+		$(".shirt-edit-error-msg").text("商品链接不能为空。");
+		return;
+	}
+	var title = $("#shirt-edit-title").val();
+	if ($.trim(title) == "") {
+		$(".shirt-edit-error-msg").text("标题不能为空。");
+		return;
+	}
+	var price = $("#shirt-edit-min-price").val();
+	if ($.trim(price) == "") {
+		$(".shirt-edit-error-msg").text("价格不能为空。");
+		return;
+	}
+	$("#shirt-edit-max-price").val(price);
+	
+	var sourceId = $("#shirt-edit-source").val();
+	if (sourceId == 0) {
+		$(".shirt-edit-error-msg").text("请选择来源。");
+		return;
+	}
+	
+	var design = $("#shirt-edit-design").val();
+	if (design == 0) {
+		$(".shirt-edit-error-msg").text("请选择图案。");
+		return;
+	}
+	
+	var brandId = $("#shirt-edit-brandId").val();
+	if (brandId == 0) {
+		$(".shirt-edit-error-msg").text("请选择品牌。");
+		return;
+	}
+	
+	var colorIds = $("#shirt-edit-shirt-color").val();
+	if ($.trim(colorIds) == "") {
+		$(".shirt-edit-error-msg").text("请选择颜色。");
+		return;
+	}
+	$("#shirt-edit-shirt-color").val(colorIds.substring(0, colorIds.length-1));
+	
+	var sleeve = $("#shirt-edit-sleeve").val();
+	if (sleeve == 0) {
+		$(".shirt-edit-error-msg").text("请选择袖长。");
+		return;
+	}
+	
+	$("#editShirtForm").submit();
+}
+
 function deleteShirt() {
 	var shirtId = $("#shirt-del-id").val();
 	$.ajax({
@@ -205,4 +276,79 @@ function deleteShirt() {
     		}
         }
 	});
+}
+
+function getShirtDetail(shirtId) {
+	$("#shirt-edit-id").val(shirtId);
+	$.ajax({
+        type:'get',
+        url:"shirt-detail.htm?shirtId="+shirtId,
+        async:false,
+        dataType:'json',
+        success:function(data){
+        	if (data.flag == 0) {
+        		var shirtList = JSON.parse(data.shirtList);
+        		console.log(shirtList);
+        		$.each(shirtList,function(index, item) {
+        			$("#shirt-edit-link-url").val(item.linkUrl);
+        			$("#shirt-edit-title").val(item.title);
+        			$("#shirt-edit-min-price").val(item.minPrice);
+        			$("#shirt-edit-max-price").val(item.maxPrice);
+        			if (item.sourceId != null) {
+        				$("#shirt-edit-source").val(item.sourceId);
+        			}
+        			if (item.design != null) {
+        				$("#shirt-edit-design").val(item.design);
+        			}
+        			if (item.brandId != null) {
+        				$("#shirt-edit-brandId").val(item.brandId);
+        			}
+        			if (item.colorIds != null) {
+        				$("#shirt-edit-shirt-color").val(item.colorIds);
+        				var ids = item.colorIds.split(',');
+        				for (var i=0; i<ids.length;i++) {
+        					selColorInShirt('edit',ids[i]);
+        				}
+        			}
+        			if (item.sleeve != null) {
+        				$("#shirt-edit-sleeve").val(item.sleeve);
+        			}
+        			if (item.isActive != null) {
+        				$("#shirt-edit-isActive").val(item.isActive);
+        			}
+        			if (item.imgType != null) {
+        				selectImgType('edit', item.imgType);
+        				if (item.imgType == 1) {
+        					if (item.shirtImg == null || item.shirtImg == "") {
+        						$("#shirt-edit-upload-filename").text("请选择");
+        					} else {
+        						$("#shirt-edit-upload-filename").text(item.shirtImg);
+        					}
+        				} else if (item.imgType == 2) {
+        					$("#shirt-edit-img-url").val(item.shirtImg);
+        				}
+        			}
+        		});
+    		}
+        }
+	});
+}
+
+function resetLayer(type) {
+	$("#shirt-"+type+"-link-url").val("");
+	$("#shirt-"+type+"-title").val("");
+	$("#shirt-"+type+"-min-price").val("");
+	$("#shirt-"+type+"-max-price").val("");
+	$("#shirt-"+type+"-source").val(0);
+	$("#shirt-"+type+"-design").val(0);
+	$("#shirt-"+type+"-brandId").val(0);
+	$("#shirt-"+type+"-shirt-color").val("");
+	$(".shirt-add-item-color span").css("border-color", "#CCCCCC");
+	$(".shirt-add-item-color span").css("background-color", "#FFFFFF");
+	$(".shirt-add-item-color span").css("color", "#000000");
+	$("#shirt-"+type+"-sleeve").val(0);
+	$("#shirt-"+type+"-isActive").val(1);
+	selectImgType(type, 1);
+	$("#shirt-"+type+"-img-url").val("");
+	$("#shirt-"+type+"-upload-filename").text("请选择");
 }
