@@ -30,15 +30,15 @@ public class CommonUtils {
 		String requestUri = request.getRequestURI();
 		Integer index = requestUrl.indexOf(requestUri);
 		if (index == -1) {
-			baseUrl = requestUrl + "/clubwx/";
+			baseUrl = requestUrl + "/" + Constants.PROJECT_NAME + "/";
 		} else {
-			baseUrl = requestUrl.substring(0, index) + "/clubwx/";
+			baseUrl = requestUrl.substring(0, index) + "/" + Constants.PROJECT_NAME + "/";
 		}
 		return baseUrl;
 	}
 	
 	public static String getRequestUri(HttpServletRequest request) {
-		String requestUrl = request.getRequestURI().substring("/clubwx".length());
+		String requestUrl = request.getRequestURI().substring(("/"+ Constants.PROJECT_NAME).length());
 		String queryString = request.getQueryString();
 		if (StringUtils.isNotEmpty(queryString)) {
 			return requestUrl + "?" + queryString;

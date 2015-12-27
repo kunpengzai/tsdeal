@@ -19,16 +19,14 @@
 		<filter-name>encode</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>
-            org.springframework.web.filter.DelegatingFilterProxy
-        </filter-class>
-   </filter>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/sm/*</url-pattern>
-    </filter-mapping> -->
+	<filter>
+		<filter-name>iteeLoginCheckFilter</filter-name>
+	  	<filter-class>com.itee.tsd.filter.IteeLoginCheckFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>iteeLoginCheckFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

@@ -13,6 +13,8 @@ import java.util.Random;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +38,8 @@ import com.itee.tsd.utils.JsonBinder;
 
 @Service("shirtManagerService")
 public class ShirtManagerServiceImpl implements ShirtManagerService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ShirtManagerServiceImpl.class);
 	
 	@Resource
 	private ShirtDao shirtDao;
@@ -66,6 +70,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 			List<ShirtDTO> list = shirtDao.getShirtList(shirt);
 			m.put("shirtList", JsonBinder.buildNormalBinder().toJson(list));
 		}
+		logger.info("getShirtList");
 		return m;
 	}
 	
@@ -82,6 +87,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 			}
 		}
 		m.put("flag", 1);
+		logger.info("shirtDetail=" + shirtId);
 		return m;
 	}
 	
@@ -122,6 +128,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				shirtDao.updateShirt(updateShirt);
 			}
 		}
+		logger.info("addShirt=" + shirtId);
 	}
 	
 	public Map<String, Object> deleteShirt(Long shirtId) {
@@ -135,6 +142,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 			return m;
 		}
 		m.put("flag", 1);
+		logger.info("deleteShirt=" + shirtId);
 		return m;
 	}
 	
@@ -190,6 +198,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				}
 			}
 		}
+		logger.info("editShirt=" + shirt.getShirtId());
 	}
 	
 	private String uploadFile(MultipartFile imageFile, Long shirtId) throws IOException {

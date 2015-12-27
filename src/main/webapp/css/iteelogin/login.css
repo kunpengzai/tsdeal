@@ -1,0 +1,35 @@
+.itee-login {
+	margin:100px 0 0 0;
+	width:100%;
+	text-align:center;
+}
+
+.itee-login-form {
+	margin:0 auto;
+	width:200px;
+}
+
+.itee-login-title {
+	height:40px;
+	line-height:40px;
+	color:#000000;
+	font-size:22px;
+}
+
+.itee-login-username,
+.itee-login-password {
+	margin:10px 0 0 0;
+}
+
+.itee-login-error-msg {
+	padding:0 0 0 17px;
+	text-align:left;
+	height:35px;
+	line-height:35px;
+	font-size:14px;
+	color:#D2494A;
+}
+
+.login-btn {
+	width:80px;	
+}
