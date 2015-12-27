@@ -56,9 +56,10 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		}
 		shirt.setStatus(0);
 		m.put("pageNum", pageInfo.getPageNum());
-		Integer shirtNum = shirtDao.getShirtNum(shirt);
-		m.put("shirtNum", shirtNum);
-		if (shirtNum > 0) {
+		m.put("pageSize", pageInfo.getPageSize());
+		Integer totalCount = shirtDao.getShirtNum(shirt);
+		m.put("totalCount", totalCount);
+		if (totalCount > 0) {
 			shirt.setPageNum(pageInfo.getPageNum());
 			shirt.setPageSize(pageInfo.getPageSize());
 			List<ShirtDTO> list = shirtDao.getShirtList(shirt);

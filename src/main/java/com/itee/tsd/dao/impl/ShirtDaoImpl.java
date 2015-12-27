@@ -20,7 +20,7 @@ import com.itee.tsd.entity.ShirtProperty;
  */
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class ShirtDaoImpl  extends BaseDaoImpl implements ShirtDao {
+public class ShirtDaoImpl extends BaseDaoImpl implements ShirtDao {
 
 	private static final Logger log = LoggerFactory.getLogger(ShirtDaoImpl.class);
 	

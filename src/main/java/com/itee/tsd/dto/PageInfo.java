@@ -10,8 +10,8 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class PageInfo implements Serializable {
-	private Integer pageNum = 1;
-	private Integer pageSize = 20;
+	private Integer pageNum;
+	private Integer pageSize;
 	private String sortBy;
 	
 	public Integer getPageNum() {

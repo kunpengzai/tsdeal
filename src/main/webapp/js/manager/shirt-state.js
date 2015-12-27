@@ -15,6 +15,22 @@ $(function() {
          format:'Y-m-d',
          formatDate:'Y-m-d'
      });
+     var urlHash=$.iteeHash.get();
+     if (urlHash.brandId) {
+    	 $(".search-brand-sel").val(urlHash.brandId);
+     }
+     if (urlHash.sourceId) {
+    	 $(".search-source-sel").val(urlHash.sourceId);
+     }
+     if (urlHash.isActive) {
+    	 $(".search-active-sel").val(urlHash.isActive);
+     }
+     if (urlHash.beginDate) {
+    	 $("#search-beginDate-picker").val(urlHash.beginDate);
+     }
+     if (urlHash.endDate) {
+    	 $("#search-endDate-picker").val(urlHash.endDate);
+     }
 	 getShirtList();
 });
 
@@ -24,21 +40,31 @@ function getShirtList() {
 	var selActiveId = $(".search-active-sel").val();
 	var beginDate = $("#search-beginDate-picker").val();
 	var endDate = $("#search-endDate-picker").val();
-	var url = "shirt-list.htm?pageNum=1&pageSize=20";
+	var urlHash=$.iteeHash.get();
+	var pageNum = urlHash.pageNum||1;
+	var pageSize = urlHash.pageSize||20;
+	var url = "shirt-list.htm?pageNum="+pageNum+"&pageSize="+pageSize;
+	$.iteeHash.add({"pageNum":pageNum});
+	$.iteeHash.add({"pageSize":pageSize});
 	if (parseInt(selBrandId) > 0) {
-		url += "&brandId="+selBrandId
+		url += "&brandId="+selBrandId;
+		$.iteeHash.add({"brandId":selBrandId});
 	}
 	if (parseInt(selSourceId) > 0) {
-		url += "&sourceId="+selSourceId
+		url += "&sourceId="+selSourceId;
+		$.iteeHash.add({"sourceId":selSourceId});
 	}
 	if (parseInt(selActiveId) > 0) {
-		url += "&isActive="+selActiveId
+		url += "&isActive="+selActiveId;
+		$.iteeHash.add({"isActive":selActiveId});
 	}
 	if (beginDate != "开始时间") {
-		url += "&beginDate="+beginDate
+		url += "&beginDate="+beginDate;
+		$.iteeHash.add({"beginDate":beginDate});
 	}
 	if (endDate != "结束时间") {
-		url += "&endDate="+endDate
+		url += "&endDate="+endDate;
+		$.iteeHash.add({"endDate":endDate});
 	}
    	$.ajax({
         type:'get',
@@ -50,6 +76,7 @@ function getShirtList() {
         		if (data.shirtList == null) {
         			return;
         		}
+        		$("#shirt-state-data").empty();
         		var shirtList = JSON.parse(data.shirtList);
         		$.each(shirtList,function(index, item) {
 	        		$("#shirt-state-data").append(
@@ -72,14 +99,21 @@ function getShirtList() {
 						+ '</tr>'
 					);
         		});
+        		var paginationEle = $("#shirt-add-pagination");
+        		iteePagination(paginationEle, data.totalCount, data.pageNum, data.pageSize, 'clickPage');
         	}
 	       	return;
        	}
     });
 }
 
+function clickPage(pageNum, pageSize) {
+	$.iteeHash.add({"pageNum":pageNum});
+	$.iteeHash.add({"pageSize":pageSize});
+	getShirtList();
+}
+
 function searchShirt() {
-	$("#shirt-state-data").empty();
 	getShirtList();
 }
 
@@ -327,7 +361,6 @@ function getShirtDetail(shirtId) {
         success:function(data){
         	if (data.flag == 0) {
         		var shirtList = JSON.parse(data.shirtList);
-        		console.log(shirtList);
         		$.each(shirtList,function(index, item) {
         			$("#shirt-edit-link-url").val(item.linkUrl);
         			$("#shirt-edit-title").val(item.title);

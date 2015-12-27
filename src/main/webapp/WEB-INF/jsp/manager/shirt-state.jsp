@@ -64,6 +64,7 @@
   				<tbody id="shirt-state-data">
                 </tbody>
   			</table>
+  			<div class="itee-pagination" id="shirt-add-pagination"></div>
   		</div>
   	</div>
   	
@@ -281,4 +282,5 @@
 <script src="<%=path%>/js/jquery-1.9.1.min.js"></script>
 <script src="<%=path%>/js/jquery.datetimepicker.v.2.3.8.js"></script>
 <script src="<%=path%>/js/manager/shirt-state.js?t=20151206000"></script>
+<script src="<%=path%>/js/common/common.js?t=20151206000"></script>
 </html>
