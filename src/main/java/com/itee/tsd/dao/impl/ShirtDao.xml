@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shirt">
 	<select id="getShirtList" parameterType="com.itee.tsd.entity.Shirt" resultType="com.itee.tsd.dto.ShirtDTO">
-		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,
+		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight, 
 			(select sb.name from shirt_brand sb where sb.id=s.brandId) brandName, 
 			(select ss.name from shirt_source ss where ss.id=s.sourceId) sourceName, 
-			s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,if(sl.clickNum is null, 0, sl.clickNum) clickNum,
+			s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,if(sl.clickNum is null, 0, sl.clickNum) clickNum, 
 			(select group_concat(sc.name separator '/') from shirt_param sp, shirt_color sc where 
-			sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0) colorNames  
-		from shirt s left join shirt_log sl on sl.shirtId=s.id
+			sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0) colorNames 
+		from shirt s left join shirt_log sl on sl.shirtId=s.id 
 		<where>
 			<if test="colorIds != null">
 				s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId in(${colorIds}) and sp1.status=0) 
@@ -28,6 +28,9 @@
 			<if test="sleeve != null">
 				and s.sleeve=#{sleeve} 
 			</if>
+			<if test="status != null">
+				and s.status=#{status} 
+			</if>
 			<if test="minPrice != null">
 				and s.minPrice &gt;= #{minPrice} 
 			</if>
@@ -40,11 +43,16 @@
 			<if test="endTime != null">
 				and s.createTime &lt;= #{endTime} 
 			</if>
-			<if test="status != null">
-				and s.status=#{status} 
+			<if test="minWeight != null">
+				and s.weight &gt;= #{minWeight} 
 			</if>
-		</where>
-		order by s.createTime desc 
+			<if test="maxWeight != null">
+				and s.weight &lt;= #{maxWeight} 
+			</if>
+		</where> 
+		<if test="orderCont != null">
+			order by ${orderCont} 
+		</if>
 		<if test="pageNum != null and pageSize != null">
 			limit ${(pageNum-1) * pageSize}, ${pageSize} 
 		</if>
@@ -71,6 +79,9 @@
 			<if test="sleeve != null">
 				and s.sleeve=#{sleeve} 
 			</if>
+			<if test="status != null">
+				and s.status=#{status} 
+			</if>
 			<if test="minPrice != null">
 				and s.minPrice &gt;= #{minPrice} 
 			</if>
@@ -83,8 +94,11 @@
 			<if test="endTime != null">
 				and s.createTime &lt;= #{endTime} 
 			</if>
-			<if test="status != null">
-				and s.status=#{status} 
+			<if test="minWeight != null">
+				and s.weight &gt;= #{minWeight} 
+			</if>
+			<if test="maxWeight != null">
+				and s.weight &lt;= #{maxWeight} 
 			</if>
 		</where>
 		<if test="pageNum != null and pageSize != null">
@@ -94,7 +108,7 @@
 	
 	<select id="getShirt" parameterType="Long" resultType="com.itee.tsd.dto.ShirtDTO">
 		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,
-			s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,
+			s.imgType,s.shirtImg,s.status,s.weight,s.createTime,s.updateTime,
 			(select group_concat(sp.colorId separator ',') from shirt_param sp where sp.shirtId=s.id and sp.status=0) colorIds 
 		from shirt s where s.id=#{shirtId} limit 1 
 	</select>
@@ -138,9 +152,34 @@
 			<if test="status != null">
 				status=#{status}, 
 			</if>
+			<if test="weight != null">
+				weight=#{weight}, 
+			</if>
 			updateTime=now() 
 		</set>
-		where id=#{id} 
+		<where>
+			<if test="id != null">
+				id=#{id} 
+			</if>
+			<if test="sourceId != null">
+				and sourceId=#{sourceId} 
+			</if>
+			<if test="brandId != null">
+				and brandId=#{brandId} 
+			</if>
+			<if test="isActive != null">
+				and isActive=#{isActive} 
+			</if>
+			<if test="design != null">
+				and design=#{design} 
+			</if>
+			<if test="sleeve != null">
+				and sleeve=#{sleeve} 
+			</if>
+			<if test="status != null">
+				and status=#{status} 
+			</if>
+		</where>
 	</update>
 	
 	<update id="updateShirtParam" parameterType="com.itee.tsd.entity.ShirtParam">
@@ -176,9 +215,9 @@
 	
 	<insert id="saveShirt" useGeneratedKeys="true" keyProperty="id" parameterType="com.itee.tsd.entity.Shirt">
 	    insert into shirt (title,linkUrl,sourceId,brandId,minPrice,maxPrice,design,sleeve,isActive,
-			imgType,shirtImg,status,createTime,updateTime) 
+			imgType,shirtImg,status,weight,createTime,updateTime) 
 	    values (#{title}, #{linkUrl}, #{sourceId}, #{brandId}, #{minPrice}, #{maxPrice}, #{design}, #{sleeve}, 
-	    	#{isActive}, #{imgType}, #{shirtImg}, 0, now(), now())
+	    	#{isActive}, #{imgType}, #{shirtImg}, 0, 0, now(), now())
     </insert>
     
     <insert id="saveShirtParam" useGeneratedKeys="true" keyProperty="id" parameterType="com.itee.tsd.entity.ShirtParam">

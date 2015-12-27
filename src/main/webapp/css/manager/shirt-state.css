@@ -78,7 +78,7 @@
 }
 
 .shirt-s-t-th-2 {
-	width:275px;
+	width:215px;
 }
 
 .shirt-s-t-th-3 {
@@ -106,11 +106,15 @@
 }
 
 .shirt-s-t-th-9 {
-	width:140px;
+	width:135px;
 }
 
 .shirt-s-t-th-10 {
 	width:35px;
+}
+
+.shirt-s-t-th-11 {
+	width:55px;
 }
 
 .shirt-state-table td {
@@ -257,7 +261,8 @@
 
 .shirt-add-item-source,
 .shirt-add-item-brand,
-.shirt-add-item-active {
+.shirt-add-item-active,
+.shirt-add-item-weight {
 	margin:0 20px 0 30px;
 }
 
@@ -297,6 +302,12 @@
 
 .shirt-add-s-sleeve {
 	margin:5px 0 0 20px;
+}
+
+#shirt-add-weight,
+#shirt-edit-weight {
+	margin:0 0 0 20px;
+	width:80px;
 }
 
 .shirt-add-item-uf-input {

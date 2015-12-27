@@ -24,6 +24,9 @@ public class Shirt implements Serializable {
 	private Integer imgType;
 	private String shirtImg;
 	private Integer status;
+	private Integer weight;
+	private Integer minWeight;
+	private Integer maxWeight;
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private Integer clickNum;
@@ -33,6 +36,7 @@ public class Shirt implements Serializable {
 	private Timestamp endTime;
 	private Integer pageNum;
 	private Integer pageSize;
+	private String orderCont;//排序信息，如：a.id desc
 	
 	public Long getId() {
 		return id;
@@ -112,6 +116,24 @@ public class Shirt implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	public Integer getWeight() {
+		return weight;
+	}
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+	public Integer getMinWeight() {
+		return minWeight;
+	}
+	public void setMinWeight(Integer minWeight) {
+		this.minWeight = minWeight;
+	}
+	public Integer getMaxWeight() {
+		return maxWeight;
+	}
+	public void setMaxWeight(Integer maxWeight) {
+		this.maxWeight = maxWeight;
+	}
 	public Timestamp getCreateTime() {
 		return createTime;
 	}
@@ -159,5 +181,11 @@ public class Shirt implements Serializable {
 	}
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
+	}
+	public String getOrderCont() {
+		return orderCont;
+	}
+	public void setOrderCont(String orderCont) {
+		this.orderCont = orderCont;
 	}
 }

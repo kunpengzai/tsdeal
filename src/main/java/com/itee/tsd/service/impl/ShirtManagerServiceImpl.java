@@ -55,6 +55,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 			shirt.setEndTime(new Timestamp(endDate.getTime()));
 		}
 		shirt.setStatus(0);
+		shirt.setOrderCont("s.id desc");
 		m.put("pageNum", pageInfo.getPageNum());
 		m.put("pageSize", pageInfo.getPageSize());
 		Integer totalCount = shirtDao.getShirtNum(shirt);
@@ -151,6 +152,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				updateShirt.setDesign(shirt.getDesign());
 				updateShirt.setBrandId(shirt.getBrandId());
 				updateShirt.setSleeve(shirt.getSleeve());
+				updateShirt.setWeight(shirt.getWeight());
 				updateShirt.setImgType(shirt.getImgType());
 				updateShirt.setIsActive(shirt.getIsActive());
 				if (dto.getImgType() == 1) {

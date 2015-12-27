@@ -58,7 +58,8 @@
 	  				<th class="shirt-s-t-th-8">图案</th>
 	  				<th class="shirt-s-t-th-9">颜色</th>
 	  				<th class="shirt-s-t-th-10">袖长</th>
-	  				<th class="shirt-s-t-th-11">操作</th>
+	  				<th class="shirt-s-t-th-11">状态/权值</th>
+	  				<th class="shirt-s-t-th-12">操作</th>
   				</tr>
   				</thead>
   				<tbody id="shirt-state-data">
@@ -143,6 +144,8 @@
   						<option value="1" selected="selected">上传图片</option>
   						<option value="2">图片链接</option>
 	  				</select>
+	  				<!-- <span class="shirt-add-item-weight">权值</span>
+	  				<input type="text" id="shirt-add-weight" name="weight" class='input' /> -->
 				</div>
 				<div class="shirt-add-s-uploadfile" id="shirt-add-uploadfile-id">
 					<span class="shirt-add-item-uploadfile">上传图片</span>
@@ -241,6 +244,8 @@
   						<option value="1" selected="selected">上传图片</option>
   						<option value="2">图片链接</option>
 	  				</select>
+	  				<span class="shirt-add-item-weight">权值</span>
+	  				<input type="text" id="shirt-edit-weight" name="weight" class='input' />
 				</div>
 				<div class="shirt-add-s-uploadfile" id="shirt-edit-uploadfile-id">
 					<span class="shirt-add-item-uploadfile">上传图片</span>

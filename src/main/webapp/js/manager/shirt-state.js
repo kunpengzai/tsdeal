@@ -91,6 +91,7 @@ function getShirtList() {
 							+ '<td>'+(item.design==1?'纯色':'有图案')+'</td>'
 							+ '<td>'+(item.colorNames!=null?item.colorNames:'-')+'</td>'
 							+ '<td>'+(item.sleeve==1?'长袖':'短袖')+'</td>'
+							+ '<td>'+((item.weight>0 && item.isActive==1)?'显示('+item.weight+')':'不显示('+item.weight+')')+'</td>'
 							+ '<td>'
 							+ '<span class="blue-btn shirt-s-t-td-opt-1" onclick="showShirtBuyPage(\''+item.linkUrl+'\');">查看</span> '
 							+ '<span class="blue-btn shirt-s-t-td-opt-2" onclick="showShirtEditLayer('+item.shirtId+');">编辑</span> '
@@ -316,6 +317,12 @@ function editShirt() {
 		return;
 	}
 	
+	var weight = $("#shirt-edit-weight").val();
+	if (weight == "") {
+		errorMsg('edit', "请填写权值。");
+		return;
+	}
+	
 	var imgType = $("#shirt-edit-imgType").val();
 	if (imgType == 1) {
 		var filename = $("#shirt-edit-upload-file").val();
@@ -388,6 +395,7 @@ function getShirtDetail(shirtId) {
         			if (item.isActive != null) {
         				$("#shirt-edit-isActive").val(item.isActive);
         			}
+        			$("#shirt-edit-weight").val(item.weight);
         			if (item.imgType != null) {
         				selectImgType('edit', item.imgType);
         				if (item.imgType == 1) {

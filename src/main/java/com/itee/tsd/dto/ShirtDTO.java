@@ -26,6 +26,9 @@ public class ShirtDTO implements Serializable {
 	private Integer imgType;
 	private String shirtImg;
 	private Integer status;
+	private Integer weight;
+	private Integer minWeight;
+	private Integer maxWeight;
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private Integer clickNum;
@@ -122,6 +125,24 @@ public class ShirtDTO implements Serializable {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public Integer getWeight() {
+		return weight;
+	}
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+	public Integer getMinWeight() {
+		return minWeight;
+	}
+	public void setMinWeight(Integer minWeight) {
+		this.minWeight = minWeight;
+	}
+	public Integer getMaxWeight() {
+		return maxWeight;
+	}
+	public void setMaxWeight(Integer maxWeight) {
+		this.maxWeight = maxWeight;
 	}
 	public Timestamp getCreateTime() {
 		return createTime;
