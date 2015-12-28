@@ -1,0 +1,92 @@
+.itee-header-part {
+	width:100%;
+    height:60px;
+    line-height:60px;
+    min-width:1150px;
+	background-color:#247cbd;
+	color:#FFFFFF;
+	font-size:28px;
+	text-align:center;
+}
+
+.itee-header-title {
+	margin:0 auto;
+	width:1110px;
+	height:60px;
+    line-height:60px;
+    display:inline-block;
+	text-align:left;
+}
+
+.itee-header-logout {
+	margin:0 0 0 0;
+}
+
+/**************shirt logout start*******************/
+.shirt-logout-layer {
+	width:100%;
+	height:100%;
+    position:fixed;
+    top:0;
+   	background-color:rgba(0,0,0,0.5);
+    text-align:center;
+   	display:none;
+}
+
+.shirt-logout-layer:after {
+    content:'';
+    display:inline-block;
+    vertical-align:middle;
+    height:100%;
+}
+
+.shirt-logout-part {
+	display:inline-block;
+    vertical-align:middle;
+	width:462px;
+	height:165px;
+	background-color:#FAFAFA;
+	border-radius:10px;
+	line-height:1;
+	font-family:'Microsoft YaHei' ! important;
+  	box-shadow:
+	  	-3px 0 15px rgba(0,0,0,0.1),/*左边阴影*/  
+		3px 0 15px rgba(0,0,0,0.1),/*右边阴影*/
+		0 -3px 15px rgba(0,0,0,0.1), /*顶部阴影*/ 
+		0 3px 15px rgba(0,0,0,0.1); /*底边阴影*/
+}
+
+.shirt-logout-part-title {
+	height:50px;
+	line-height:50px;
+	font-size:17px;
+	border-radius:10px 10px 0 0;
+	background-color:#D44846;
+	color:#FFFFFF;
+	width:100%;
+	text-align:left;
+}
+
+.shirt-logout-part-title-left {
+	padding:0 0 0 36px;
+}
+
+.shirt-logout-part-title-right {
+	margin:0 20px 0 0;
+	cursor:pointer;
+	float:right;
+}
+
+.shirt-logout-content {
+	margin:20px 30px 0 35px;
+	color:#656565;
+	font-size:14px;
+	text-align:left;
+}
+
+.shirt-logout-btn {
+	float:right;
+	margin:25px 30px 0 0;
+	width:90px;
+}
+/*************************************/

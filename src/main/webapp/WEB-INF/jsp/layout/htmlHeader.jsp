@@ -14,3 +14,4 @@
 <link rel="shortcut icon" href="/img/favicon.ico">
 
 <link rel="stylesheet" href="<%=path%>/css/common/common.css?t=20151206000"/>
+<link rel="stylesheet" href="<%=path%>/css/layout/header.css?t=20151206000"/>

@@ -9,8 +9,8 @@
    	<link rel="stylesheet" href="<%=path%>/css/manager/shirt-state.css?t=20151206000"/>
   </head>
   <body>
+  	<jsp:include  page="../layout/header.jsp"/>
   	<div class="shirt-state">
-  		<div class="shirt-state-title">iTEE后台管理</div>
   		<div class="shirt-state-search">
   			<span class="search-brand">品牌
   				<select class="search-brand-sel select">
@@ -284,8 +284,7 @@
 		</div>
 	</div>
   </body>
-<script src="<%=path%>/js/jquery-1.9.1.min.js"></script>
-<script src="<%=path%>/js/jquery.datetimepicker.v.2.3.8.js"></script>
-<script src="<%=path%>/js/manager/shirt-state.js?t=20151206000"></script>
-<script src="<%=path%>/js/common/common.js?t=20151206000"></script>
+  <%@include file="../layout/commonjs.jsp" %>
+  <script src="<%=path%>/js/jquery.datetimepicker.v.2.3.8.js"></script>
+  <script src="<%=path%>/js/manager/shirt-state.js?t=20151206000"></script>
 </html>

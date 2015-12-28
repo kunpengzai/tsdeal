@@ -9,14 +9,13 @@ body {
 .red-btn {
 	/* width: 90px; */
 	width:auto;
-    height: 30px;
+    height:30px;
     line-height:30px;
 	border-radius:4px;
     color:#FFFFFF;
     background-color:#D2494A;
     vertical-align:middle;
     font-size:14px;
-    line-height:26px;
     text-align:center;
     cursor:pointer;
     display:inline-block;
@@ -34,7 +33,7 @@ body {
 .blue-btn {
 	/* width: 90px; */
 	width:auto;
-    height: 30px;
+    height:30px;
     line-height:30px;
     border-radius:4px;
     color:#FFFFFF;
