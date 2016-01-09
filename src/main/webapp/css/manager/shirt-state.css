@@ -152,7 +152,7 @@
 .shirt-add-part {
 	display:inline-block;
     vertical-align:middle;
-	width:500px;
+	width:800px;
 	/* min-height:500px; */
 	min-height:575px;
 	background-color:#FAFAFA;
@@ -198,12 +198,12 @@
 
 .shirt-add-s-url input {
 	margin:0 0 0 20px;
-	width:350px;
+	width:650px;
 }
 
 .shirt-add-s-title {
 	margin:10px 0 0 20px;
-	height:82px;
+	height:52px;
 	line-height:82px;
 }
 
@@ -213,8 +213,8 @@
 
 .shirt-add-s-title textarea {
 	margin:0 0 0 52px;
-	width:350px;
-	height:70px;
+	width:650px;
+	height:40px;
 }
 
 .shirt-add-s-price,
@@ -264,7 +264,7 @@
 
 .shirt-add-item-color {
 	margin:0 0 0 52px;
-	width:375px;
+	width:675px;
 	display:inline-block;
 }
 
@@ -323,7 +323,7 @@
 
 .shirt-add-error-msg {
 	text-align:left;
-	width:387px;
+	width:687px;
 	height:30px;
 	line-height:30px;
 	font-size:14px;
@@ -355,7 +355,7 @@
 .shirt-edit-part {
 	display:inline-block;
     vertical-align:middle;
-	width:500px;
+	width:800px;
 	min-height:575px;
 	background-color:#FAFAFA;
 	border-radius:10px;
