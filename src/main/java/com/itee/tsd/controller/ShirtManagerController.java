@@ -19,7 +19,7 @@ import com.itee.tsd.dto.PageInfo;
 import com.itee.tsd.dto.SearchInfo;
 import com.itee.tsd.dto.ShirtDTO;
 import com.itee.tsd.dto.ShirtPropertyDTO;
-import com.itee.tsd.service.BaseService;
+import com.itee.tsd.service.BaseManagerService;
 import com.itee.tsd.service.ShirtManagerService;
 
 /**
@@ -33,19 +33,21 @@ import com.itee.tsd.service.ShirtManagerService;
 public class ShirtManagerController {
 	
 	@Resource
-	private BaseService baseService;
+	private BaseManagerService baseManagerService;
 	@Resource
 	private ShirtManagerService shirtManagerService;
 
 	@RequestMapping ("shirt-state")
 	public String shirtState(HttpServletRequest request, Model model) {
-		List<ShirtPropertyDTO> brandList = baseService.getBrandList();
-		List<ShirtPropertyDTO> sourceList = baseService.getSourceList();
-		List<ShirtPropertyDTO> colorList = baseService.getColorList();
+		List<ShirtPropertyDTO> brandList = baseManagerService.getBrandList();
+		List<ShirtPropertyDTO> sourceList = baseManagerService.getSourceList();
+		List<ShirtPropertyDTO> colorList = baseManagerService.getColorList();
+		String status = baseManagerService.getWeightScheduler();
 		
 		model.addAttribute("brandList", brandList);
 		model.addAttribute("sourceList", sourceList);
 		model.addAttribute("colorList", colorList);
+		model.addAttribute("weightSchedulerStatus", status);
 		
 		return "/manager/shirt-state";
 	}
@@ -85,5 +87,20 @@ public class ShirtManagerController {
 			@RequestParam MultipartFile imageFile) throws IOException {
 		shirtManagerService.editShirt(shirt, imageFile);
 		return "redirect:"+"/sm/shirt-state.htm";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="change-shirt-status", produces="application/json;charset=UTF-8", method=RequestMethod.POST)
+	public Map<String, Object> changeShirtStatus(HttpServletRequest request, 
+			Long shirtId, Integer status) {
+		Map<String, Object> m = shirtManagerService.changeShirtStatus(shirtId, status);
+		return m;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="change-weight-scheduler", produces="application/json;charset=UTF-8", method=RequestMethod.POST)
+	public Map<String, Object> changeWeightScheduler(HttpServletRequest request, Integer status) {
+		Map<String, Object> m = shirtManagerService.changeWeightScheduler(status);
+		return m;
 	}
 }

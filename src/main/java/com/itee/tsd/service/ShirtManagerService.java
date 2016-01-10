@@ -26,4 +26,8 @@ public interface ShirtManagerService {
 	public Map<String, Object> deleteShirt(Long shirtId);
 	
 	public void editShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException;
+	
+	public Map<String, Object> changeShirtStatus(Long shirtId, Integer status);
+	
+	public Map<String, Object> changeWeightScheduler(Integer status);
 }

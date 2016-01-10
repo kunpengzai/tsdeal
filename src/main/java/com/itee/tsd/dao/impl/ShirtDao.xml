@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shirt">
-	<select id="getShirtList" parameterType="com.itee.tsd.entity.Shirt" resultType="com.itee.tsd.dto.ShirtDTO">
+	<select id="getMoreShirt" parameterType="com.itee.tsd.entity.Shirt" resultType="com.itee.tsd.dto.ShirtDTO">
 		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight, 
 			(select sb.name from shirt_brand sb where sb.id=s.brandId) brandName, 
 			(select ss.name from shirt_source ss where ss.id=s.sourceId) sourceName, 
@@ -58,151 +58,6 @@
 		</if>
 	</select>
 	
-	<select id="getShirtNum" parameterType="com.itee.tsd.entity.Shirt" resultType="Integer">
-		select count(s.id) from shirt s 
-		<where>
-			<if test="colorIds != null">
-				s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId in(${colorIds}) and sp1.status=0) 
-			</if>
-			<if test="sourceId != null">
-				and s.sourceId=#{sourceId} 
-			</if>
-			<if test="brandId != null">
-				and s.brandId=#{brandId} 
-			</if>
-			<if test="isActive != null">
-				and s.isActive=#{isActive} 
-			</if>
-			<if test="design != null">
-				and s.design=#{design} 
-			</if>
-			<if test="sleeve != null">
-				and s.sleeve=#{sleeve} 
-			</if>
-			<if test="status != null">
-				and s.status=#{status} 
-			</if>
-			<if test="minPrice != null">
-				and s.minPrice &gt;= #{minPrice} 
-			</if>
-			<if test="maxPrice != null">
-				and s.maxPrice &lt;= #{maxPrice} 
-			</if>
-			<if test="beginTime != null">
-				and s.createTime &gt;= #{beginTime} 
-			</if>
-			<if test="endTime != null">
-				and s.createTime &lt;= #{endTime} 
-			</if>
-			<if test="minWeight != null">
-				and s.weight &gt;= #{minWeight} 
-			</if>
-			<if test="maxWeight != null">
-				and s.weight &lt;= #{maxWeight} 
-			</if>
-		</where>
-		<if test="pageNum != null and pageSize != null">
-			limit ${(pageNum-1) * pageSize}, ${pageSize} 
-		</if>
-	</select>
-	
-	<select id="getShirt" parameterType="Long" resultType="com.itee.tsd.dto.ShirtDTO">
-		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,
-			s.imgType,s.shirtImg,s.status,s.weight,s.createTime,s.updateTime,
-			(select group_concat(sp.colorId separator ',') from shirt_param sp where sp.shirtId=s.id and sp.status=0) colorIds 
-		from shirt s where s.id=#{shirtId} limit 1 
-	</select>
-	
-	<update id="updateShirt" parameterType="com.itee.tsd.entity.Shirt">
-		update shirt 
-		<set>
-			<if test="title != null">
-				title=#{title}, 
-			</if>
-			<if test="linkUrl != null">
-				linkUrl=#{linkUrl},
-			</if>
-			<if test="sourceId != null">
-				sourceId=#{sourceId},
-			</if>
-			<if test="brandId != null">
-				brandId=#{brandId},
-			</if>
-			<if test="minPrice != null">
-				minPrice=#{minPrice},
-			</if>
-			<if test="maxPrice != null">
-				maxPrice=#{maxPrice},
-			</if>
-			<if test="design != null">
-				design=#{design},
-			</if>
-			<if test="sleeve != null">
-				sleeve=#{sleeve},
-			</if>
-			<if test="isActive != null">
-				isActive=#{isActive},
-			</if>
-			<if test="imgType != null">
-				imgType=#{imgType},
-			</if>
-			<if test="shirtImg != null">
-				shirtImg=#{shirtImg}, 
-			</if>
-			<if test="status != null">
-				status=#{status}, 
-			</if>
-			<if test="weight != null">
-				weight=#{weight}, 
-			</if>
-			updateTime=now() 
-		</set>
-		<where>
-			<if test="id != null">
-				id=#{id} 
-			</if>
-			<if test="sourceId != null">
-				and sourceId=#{sourceId} 
-			</if>
-			<if test="brandId != null">
-				and brandId=#{brandId} 
-			</if>
-			<if test="isActive != null">
-				and isActive=#{isActive} 
-			</if>
-			<if test="design != null">
-				and design=#{design} 
-			</if>
-			<if test="sleeve != null">
-				and sleeve=#{sleeve} 
-			</if>
-			<if test="status != null">
-				and status=#{status} 
-			</if>
-		</where>
-	</update>
-	
-	<update id="updateShirtParam" parameterType="com.itee.tsd.entity.ShirtParam">
-		update shirt_param 
-		<set>
-			<if test="price != null">
-				price=#{price},  
-			</if>
-			<if test="status != null">
-				status=#{status}, 
-			</if>
-			updateTime=now() 
-		</set>
-		<where>
-			<if test="shirtId != null">
-				shirtId=#{shirtId} 
-			</if>
-			<if test="colorId != null">
-				and colorId=#{colorId} 
-			</if>
-		</where>
-	</update>
-	
 	<update id="updateShirtLog" parameterType="Map">
 		update shirt_log 
 		<set>
@@ -212,23 +67,6 @@
 		</set>
 		where shirtId=#{shirtId} 
 	</update>
-	
-	<insert id="saveShirt" useGeneratedKeys="true" keyProperty="id" parameterType="com.itee.tsd.entity.Shirt">
-	    insert into shirt (title,linkUrl,sourceId,brandId,minPrice,maxPrice,design,sleeve,isActive,
-			imgType,shirtImg,status,weight,createTime,updateTime) 
-	    values (#{title}, #{linkUrl}, #{sourceId}, #{brandId}, #{minPrice}, #{maxPrice}, #{design}, #{sleeve}, 
-	    	#{isActive}, #{imgType}, #{shirtImg}, 0, 0, now(), now())
-    </insert>
-    
-    <insert id="saveShirtParam" useGeneratedKeys="true" keyProperty="id" parameterType="com.itee.tsd.entity.ShirtParam">
-	    insert into shirt_param (shirtId,colorId,price,status,createTime,updateTime) 
-	    values (#{shirtId}, #{colorId}, #{price}, #{status}, now(), now())
-    </insert>
-    
-    <insert id="saveShirtLog" useGeneratedKeys="true" keyProperty="id" parameterType="Long">
-	    insert into shirt_log (shirtId,clickNum) 
-	    values (#{shirtId}, 0)
-    </insert>
     
     <select id="getColorList" resultType="com.itee.tsd.entity.ShirtProperty">
 		select sc.id, sc.name, sc.order, sc.status from shirt_color sc where sc.status=0 order by sc.order
@@ -240,5 +78,9 @@
 	
 	<select id="getSourceList" resultType="com.itee.tsd.entity.ShirtProperty">
 		select ss.id, ss.name, ss.order, ss.status from shirt_source ss where ss.status=0 order by ss.order
+	</select>
+	
+	<select id="getPriceRangeList" resultType="com.itee.tsd.entity.ShirtProperty">
+		select pr.id, pr.minPrice, pr.maxPrice, pr.order, pr.status from price_range pr where pr.status=0 order by pr.order
 	</select>
 </mapper>

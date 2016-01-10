@@ -18,14 +18,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.itee.tsd.dao.ShirtDao;
+import com.itee.tsd.dao.ShirtManagerDao;
+import com.itee.tsd.dao.SystemParamDao;
 import com.itee.tsd.dto.PageInfo;
 import com.itee.tsd.dto.SearchInfo;
 import com.itee.tsd.dto.ShirtDTO;
 import com.itee.tsd.entity.Shirt;
 import com.itee.tsd.entity.ShirtParam;
+import com.itee.tsd.entity.SystemParam;
 import com.itee.tsd.service.ShirtManagerService;
 import com.itee.tsd.utils.Config;
+import com.itee.tsd.utils.Constants;
 import com.itee.tsd.utils.DateUtils;
 import com.itee.tsd.utils.DownloadUtils;
 import com.itee.tsd.utils.JsonBinder;
@@ -42,7 +45,9 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 	private static final Logger logger = LoggerFactory.getLogger(ShirtManagerServiceImpl.class);
 	
 	@Resource
-	private ShirtDao shirtDao;
+	private ShirtManagerDao shirtManagerDao;
+	@Resource
+	private SystemParamDao systemParamDao;
 
 	public Map<String, Object> getShirtList(SearchInfo searchInfo, PageInfo pageInfo) {
 		Map<String, Object> m = new HashMap<String, Object>();
@@ -62,12 +67,12 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		shirt.setOrderCont("s.id desc");
 		m.put("pageNum", pageInfo.getPageNum());
 		m.put("pageSize", pageInfo.getPageSize());
-		Integer totalCount = shirtDao.getShirtNum(shirt);
+		Integer totalCount = shirtManagerDao.getShirtNum(shirt);
 		m.put("totalCount", totalCount);
 		if (totalCount > 0) {
 			shirt.setPageNum(pageInfo.getPageNum());
 			shirt.setPageSize(pageInfo.getPageSize());
-			List<ShirtDTO> list = shirtDao.getShirtList(shirt);
+			List<ShirtDTO> list = shirtManagerDao.getShirtList(shirt);
 			m.put("shirtList", JsonBinder.buildNormalBinder().toJson(list));
 		}
 		logger.info("getShirtList");
@@ -78,7 +83,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		Map<String, Object> m = new HashMap<String, Object>();
 		if (shirtId != null) {
 			m.put("flag", 0);
-			ShirtDTO shirt = shirtDao.getShirt(shirtId);
+			ShirtDTO shirt = shirtManagerDao.getShirt(shirtId);
 			if (shirt != null) {
 				List<ShirtDTO> list = new ArrayList<ShirtDTO>();
 				list.add(shirt);
@@ -106,7 +111,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		if (shirt.getImgType() == 2) {
 			newShirt.setShirtImg(shirt.getShirtImg());
 		}
-		Long shirtId = shirtDao.saveShirt(newShirt);
+		Long shirtId = shirtManagerDao.saveShirt(newShirt);
 		
 		if (StringUtils.isNotBlank(shirt.getColorIds())) {
 			String[] colorIds = shirt.getColorIds().split(",");
@@ -116,7 +121,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				shirtParam.setColorId(Long.valueOf(colorId));
 				shirtParam.setPrice(shirt.getMinPrice());
 				shirtParam.setStatus(0);
-				shirtDao.saveShirtParam(shirtParam);
+				shirtManagerDao.saveShirtParam(shirtParam);
 			}
 		}
 		if (shirt.getImgType() == 1) {//Upload File
@@ -125,9 +130,10 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				Shirt updateShirt = new Shirt();
 				updateShirt.setId(shirtId);
 				updateShirt.setShirtImg(newFileName);
-				shirtDao.updateShirt(updateShirt);
+				shirtManagerDao.updateShirt(updateShirt);
 			}
 		}
+		shirtManagerDao.saveShirtLog(shirtId);
 		logger.info("addShirt=" + shirtId);
 	}
 	
@@ -137,7 +143,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 			Shirt shirt = new Shirt();
 			shirt.setId(shirtId);
 			shirt.setStatus(-1);
-			shirtDao.updateShirt(shirt);
+			shirtManagerDao.updateShirt(shirt);
 			m.put("flag", 0);
 			return m;
 		}
@@ -148,7 +154,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 	
 	public void editShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException {
 		if (shirt.getShirtId() != null) {
-			ShirtDTO dto = shirtDao.getShirt(shirt.getShirtId());
+			ShirtDTO dto = shirtManagerDao.getShirt(shirt.getShirtId());
 			if (dto != null) {
 				Shirt updateShirt = new Shirt();
 				updateShirt.setId(shirt.getShirtId());
@@ -177,13 +183,13 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				if (shirt.getImgType() == 2) {
 					updateShirt.setShirtImg(shirt.getShirtImg());
 				}
-				shirtDao.updateShirt(updateShirt);
+				shirtManagerDao.updateShirt(updateShirt);
 				
 				if (StringUtils.isNotBlank(dto.getColorIds())) {
 					ShirtParam shirtParam = new ShirtParam();
 					shirtParam.setShirtId(shirt.getShirtId());
 					shirtParam.setStatus(-1);
-					shirtDao.updateShirtParam(shirtParam);
+					shirtManagerDao.updateShirtParam(shirtParam);
 				}
 				if (StringUtils.isNotBlank(shirt.getColorIds())) {
 					String[] colorIds = shirt.getColorIds().split(",");
@@ -193,12 +199,62 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 						shirtParam.setColorId(Long.valueOf(colorId));
 						shirtParam.setPrice(shirt.getMinPrice());
 						shirtParam.setStatus(0);
-						shirtDao.saveShirtParam(shirtParam);
+						shirtManagerDao.saveShirtParam(shirtParam);
 					}
 				}
 			}
 		}
 		logger.info("editShirt=" + shirt.getShirtId());
+	}
+	
+	public Map<String, Object> changeShirtStatus(Long shirtId, Integer status) {
+		Map<String, Object> m = new HashMap<String, Object>();
+		Integer weight = null;
+		if (status == 1) {//status=1：显示, status=0：不显示
+			Shirt wShirt = new Shirt();
+			wShirt.setPageNum(1);
+			wShirt.setPageSize(1);
+			wShirt.setStatus(0);
+			wShirt.setIsActive(1);
+			wShirt.setOrderCont("s.weight desc");
+			List<ShirtDTO> wShirtList = shirtManagerDao.getShirtList(wShirt);
+			if (wShirtList.size() == 0) {
+				weight = 0;
+			} else {
+				weight = wShirtList.get(0).getWeight();
+				if (weight == 0) {
+					weight = 1;
+				}
+				Shirt updateShirt = new Shirt();
+				updateShirt.setId(shirtId);
+				updateShirt.setWeight(weight);
+				shirtManagerDao.updateShirt(updateShirt);
+			}
+		} else {
+			weight = 0;
+			Shirt updateShirt = new Shirt();
+			updateShirt.setId(shirtId);
+			updateShirt.setWeight(weight);
+			shirtManagerDao.updateShirt(updateShirt);
+		}
+		m.put("weight", weight);
+		m.put("flag", 0);
+		return m;
+	}
+	
+	public Map<String, Object> changeWeightScheduler(Integer status) {
+		Map<String, Object> m = new HashMap<String, Object>();
+		SystemParam systemParam = new SystemParam();
+		systemParam.setSystemName(Constants.SYSTEM_NAME_MANAGER);
+		systemParam.setName(Constants.WEIGHT_SWITCH);
+		if (status == 1) {//status=1：开启, status=0：关闭
+			systemParam.setValue("1");
+		} else {
+			systemParam.setValue("0");
+		}
+		systemParamDao.updateSystemParam(systemParam);
+		m.put("flag", 0);
+		return m;
 	}
 	
 	private String uploadFile(MultipartFile imageFile, Long shirtId) throws IOException {

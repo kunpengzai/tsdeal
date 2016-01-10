@@ -15,6 +15,9 @@ public class ShirtProperty implements Serializable {
 	private Integer order;
 	private Integer status;
 	
+	private Integer minPrice;
+	private Integer maxPrice;
+	
 	public Long getId() {
 		return id;
 	}
@@ -38,5 +41,17 @@ public class ShirtProperty implements Serializable {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public Integer getMinPrice() {
+		return minPrice;
+	}
+	public void setMinPrice(Integer minPrice) {
+		this.minPrice = minPrice;
+	}
+	public Integer getMaxPrice() {
+		return maxPrice;
+	}
+	public void setMaxPrice(Integer maxPrice) {
+		this.maxPrice = maxPrice;
 	}
 }

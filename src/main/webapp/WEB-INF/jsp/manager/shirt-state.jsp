@@ -42,6 +42,8 @@
   				<input type="text" id="search-endDate-picker" class='timepicker input' readonly value="结束时间" />
   			</span>
   			<span class="search-s-shirt blue-btn" onclick="searchShirt();">搜索</span>
+  			<span class="change-weight-scheduler">定时修改权值</span>
+  			<span class="change-weight-scheduler-btn blue-btn" onclick="changeWeightScheduler();"><c:choose><c:when test='${weightSchedulerStatus == 1}'>关闭</c:when><c:otherwise>开启</c:otherwise></c:choose></span>
   			<span class="search-add-shirt blue-btn" onclick="showShirtAddLayer();">添加新商品</span>
   		</div>
   		<div class="shirt-state-info">
@@ -52,14 +54,16 @@
 	  				<th class="shirt-s-t-th-2">标题</th>
 	  				<th class="shirt-s-t-th-3">来源</th>
 	  				<th class="shirt-s-t-th-4">品牌</th>
-	  				<th class="shirt-s-t-th-5">点击次数</th>
+	  				<th class="shirt-s-t-th-5">点击数</th>
 	  				<th class="shirt-s-t-th-6">售价</th>
-	  				<th class="shirt-s-t-th-7">是否有效</th>
+	  				<th class="shirt-s-t-th-7">链接状态</th>
 	  				<th class="shirt-s-t-th-8">图案</th>
 	  				<th class="shirt-s-t-th-9">颜色</th>
 	  				<th class="shirt-s-t-th-10">袖长</th>
-	  				<th class="shirt-s-t-th-11">状态/权值</th>
-	  				<th class="shirt-s-t-th-12">操作</th>
+	  				<th class="shirt-s-t-th-11">权值</th>
+	  				<th class="shirt-s-t-th-12">状态</th>
+	  				<th class="shirt-s-t-th-13">状态开关</th>
+	  				<th class="shirt-s-t-th-14">操作</th>
   				</tr>
   				</thead>
   				<tbody id="shirt-state-data">

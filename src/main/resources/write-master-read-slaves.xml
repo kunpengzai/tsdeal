@@ -120,6 +120,14 @@
 		<property name="routingStrategy" ref="masterSlaveStrategy"></property>
 	</bean>
 	
+	<bean id="shirtManagerDaoTarget" class="com.itee.tsd.dao.impl.ShirtManagerDaoImpl"></bean>
+	<bean id="shirtManagerDao"
+		class="com.google.code.routing4db.spring.RoutingSpringFactoryBean">
+		<property name="targetInterface" value="com.itee.tsd.dao.ShirtManagerDao"></property>
+		<property name="targetObject" ref="shirtManagerDaoTarget"></property>
+		<property name="routingStrategy" ref="masterSlaveStrategy"></property>
+	</bean>
+	
 	<bean id="iteeUserDaoTarget" class="com.itee.tsd.dao.impl.IteeUserDaoImpl"></bean>
 	<bean id="iteeUserDao"
 		class="com.google.code.routing4db.spring.RoutingSpringFactoryBean">

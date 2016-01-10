@@ -4,4 +4,17 @@
 	<select id="getSystemParam" parameterType="Map" resultType="com.itee.tsd.entity.SystemParam">
 		select * from system_param where systemName=#{systemName} and name=#{name} and status=0 limit 1
 	</select>
+	
+	<update id="updateSystemParam" parameterType="Map">
+		update system_param 
+		<set>
+			<if test="value != null">
+				value=#{value}, 
+			</if>
+			<if test="status != null">
+				status=#{status} 
+			</if>
+		</set>
+		where systemName=#{systemName} and name=#{name}
+	</update>
 </mapper>

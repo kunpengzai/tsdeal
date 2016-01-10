@@ -87,11 +87,17 @@ function getShirtList() {
 							+ '<td>'+item.brandName+'</td>'
 							+ '<td>'+item.clickNum+'</td>'
 							+ '<td>'+item.minPrice+'</td>'
-							+ '<td>'+(item.isActive==1?'是':'否')+'</td>'
+							+ '<td>'+(item.isActive==1?'有效':'无效')+'</td>'
 							+ '<td>'+(item.design==1?'纯色':'有图案')+'</td>'
 							+ '<td>'+(item.colorNames!=null?item.colorNames:'-')+'</td>'
 							+ '<td>'+(item.sleeve==1?'长袖':'短袖')+'</td>'
-							+ '<td>'+((item.weight>0 && item.isActive==1)?'显示('+item.weight+')':'不显示('+item.weight+')')+'</td>'
+							+ '<td id="s-weight-'+item.shirtId+'">'+item.weight+'</td>'
+							+ '<td id="s-status-'+item.shirtId+'">'+((item.weight>0 && item.isActive==1)?'显示':'不显示')+'</td>'
+							+ '<td>'
+							+ '<span class="blue-btn shirt-s-t-td-opt-0" id="s-satus-btn-'+item.shirtId+'" onclick="changeShirtStatus(\''+item.shirtId+'\');">'
+							+ ((item.weight>0 && item.isActive==1)?'不显示':'显示')
+							+ '</span>'
+							+'</td>'
 							+ '<td>'
 							+ '<span class="blue-btn shirt-s-t-td-opt-1" onclick="showShirtBuyPage(\''+item.linkUrl+'\');">查看</span> '
 							+ '<span class="blue-btn shirt-s-t-td-opt-2" onclick="showShirtEditLayer('+item.shirtId+');">编辑</span> '
@@ -106,6 +112,55 @@ function getShirtList() {
 	       	return;
        	}
     });
+}
+
+function changeShirtStatus(shirtId) {//status=1：显示, status=0：不显示
+	var statusText = $("#s-status-"+shirtId).text();
+	var status = 1;
+	if (statusText == "显示") {
+		status = 0;
+	}
+	$.ajax({
+        type:'post',
+        url:"change-shirt-status.htm?shirtId="+shirtId+"&status="+status,
+        async:false,
+        dataType:'json',
+        success:function(data) {
+        	if (data.flag == 0) {
+        		$("#s-weight-"+shirtId).text(data.weight);
+        		if (status == 1) {
+        			$("#s-status-"+shirtId).text("显示");
+        			$("#s-satus-btn-"+shirtId).text("不显示");
+        		} else {
+        			$("#s-status-"+shirtId).text("不显示");
+        			$("#s-satus-btn-"+shirtId).text("显示");
+        		}
+        	}
+        }
+	});
+}
+
+function changeWeightScheduler() {
+	var btnText = $(".change-weight-scheduler-btn").text();
+	var status = 0;
+	if (btnText == "开启") {
+		status = 1;
+	}
+	$.ajax({
+        type:'post',
+        url:"change-weight-scheduler.htm?status="+status,
+        async:false,
+        dataType:'json',
+        success:function(data) {
+        	if (data.flag == 0) {
+        		if (status == 1) {
+        			$(".change-weight-scheduler-btn").text("关闭");
+        		} else {
+        			$(".change-weight-scheduler-btn").text("开启");
+        		}
+        	}
+        }
+	});
 }
 
 function clickPage(pageNum, pageSize) {

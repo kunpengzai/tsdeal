@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.itee.tsd.dto.ShirtPropertyDTO;
 
-public interface BaseService {
+public interface BaseManagerService {
 
 	public List<ShirtPropertyDTO> getColorList();
 	
@@ -13,4 +13,6 @@ public interface BaseService {
 	public List<ShirtPropertyDTO> getSourceList();
 	
 	public List<ShirtPropertyDTO> getPriceRangeList();
+	
+	public String getWeightScheduler();
 }

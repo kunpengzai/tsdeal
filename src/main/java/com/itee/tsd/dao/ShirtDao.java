@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.itee.tsd.dto.ShirtDTO;
 import com.itee.tsd.entity.Shirt;
-import com.itee.tsd.entity.ShirtParam;
 import com.itee.tsd.entity.ShirtProperty;
 
 /**
@@ -15,28 +14,16 @@ import com.itee.tsd.entity.ShirtProperty;
 
 public interface ShirtDao {
 
-	public List<ShirtDTO> getShirtList(Shirt shirt);
-	
-	public Integer getShirtNum(Shirt shirt);
-	
-	public ShirtDTO getShirt(Long shirtId);
-	
-	public int updateShirt(Shirt shirt);
-	
-	public int updateShirtParam(ShirtParam shirtParam);
+	public List<ShirtDTO> getMoreShirt(Shirt shirt);
 	
 	public int updateShirtLog(Long shirtId, Integer clickNum);
-	
-	public Long saveShirt(Shirt shirt);
-	
-	public Long saveShirtParam(ShirtParam shirtParam);
-	
-	public void saveShirtLog(Long shirtId);
 	
 	public List<ShirtProperty> getColorList();
 	
 	public List<ShirtProperty> getBrandList();
 	
 	public List<ShirtProperty> getSourceList();
+	
+	public List<ShirtProperty> getPriceRangeList();
 	
 }

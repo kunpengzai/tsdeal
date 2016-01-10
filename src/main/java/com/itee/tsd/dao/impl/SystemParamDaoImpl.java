@@ -25,4 +25,13 @@ public class SystemParamDaoImpl extends BaseDaoImpl implements SystemParamDao {
 			throw e;
 		}
 	}
+	
+	public int updateSystemParam(SystemParam systemParam) {
+		try {
+			return this.getSqlSession().update("systemParam.updateSystemParam", systemParam);
+		} catch(RuntimeException e) {
+			log.error("systemParamDao.updateSystemParam", e);
+			throw e;
+		}
+	}
 }

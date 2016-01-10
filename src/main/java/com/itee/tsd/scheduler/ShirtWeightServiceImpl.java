@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.itee.tsd.dao.ShirtDao;
+import com.itee.tsd.dao.ShirtManagerDao;
 import com.itee.tsd.dao.SystemParamDao;
 import com.itee.tsd.dto.ShirtDTO;
 import com.itee.tsd.entity.Shirt;
@@ -20,7 +20,7 @@ public class ShirtWeightServiceImpl implements ShirtWeightService {
 	@Resource
 	private SystemParamDao systemParamDao;
 	@Resource
-	private ShirtDao shirtDao;
+	private ShirtManagerDao shirtManagerDao;
 	
 	public void changeShirtWeight() {
 		SystemParam sysParam = systemParamDao.getSystemParam(Constants.SYSTEM_NAME_MANAGER, 
@@ -32,12 +32,12 @@ public class ShirtWeightServiceImpl implements ShirtWeightService {
 			wShirt.setStatus(0);
 			wShirt.setIsActive(1);
 			wShirt.setOrderCont("s.weight desc");
-			List<ShirtDTO> wShirtList = shirtDao.getShirtList(wShirt);
+			List<ShirtDTO> wShirtList = shirtManagerDao.getShirtList(wShirt);
 			if (wShirtList.size() == 0) return;
 			Integer weight = wShirtList.get(0).getWeight() + 1;
 			SystemParam wSysParam = systemParamDao.getSystemParam(Constants.SYSTEM_NAME_MANAGER, 
 					Constants.WEIGHT_CHANGE_SHIRT_NUM);
-			List<ShirtProperty> brandIdlist = shirtDao.getBrandList();
+			List<ShirtProperty> brandIdlist = shirtManagerDao.getBrandList(0);
 			for (ShirtProperty sp : brandIdlist) {
 				Shirt shirt = new Shirt();
 				shirt.setBrandId(sp.getId().intValue());
@@ -47,12 +47,12 @@ public class ShirtWeightServiceImpl implements ShirtWeightService {
 				shirt.setPageNum(1);
 				shirt.setPageSize(Integer.valueOf(wSysParam.getValue()));
 				shirt.setOrderCont("s.createTime");
-				List<ShirtDTO> shirtList = shirtDao.getShirtList(shirt);
+				List<ShirtDTO> shirtList = shirtManagerDao.getShirtList(shirt);
 				for (ShirtDTO dto : shirtList) {
 					Shirt updateShirt = new Shirt();
 					updateShirt.setId(dto.getShirtId());
 					updateShirt.setWeight(weight);
-					shirtDao.updateShirt(updateShirt);
+					shirtManagerDao.updateShirt(updateShirt);
 				}
 			}
 		}
