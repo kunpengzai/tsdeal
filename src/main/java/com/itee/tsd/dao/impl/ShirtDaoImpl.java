@@ -43,37 +43,45 @@ public class ShirtDaoImpl extends BaseDaoImpl implements ShirtDao {
 			throw e;
 		}
 	}
-	
-	public List<ShirtProperty> getColorList() {
+
+	public List<ShirtProperty> getColorList(Integer status) {
 		try {
-			return this.getSqlSession().selectList("shirt.getColorList");
+			Map map = new HashMap();
+			map.put("status", status);
+			return this.getSqlSession().selectList("shirt.getColorList", map);
 		} catch(RuntimeException e) {
 			log.error("shirtDao.getColorList", e);
 			throw e;
 		}
 	}
-	
-	public List<ShirtProperty> getBrandList() {
+
+	public List<ShirtProperty> getBrandList(Integer status) {
 		try {
-			return this.getSqlSession().selectList("shirt.getBrandList");
+			Map map = new HashMap();
+			map.put("status", status);
+			return this.getSqlSession().selectList("shirt.getBrandList", map);
 		} catch(RuntimeException e) {
 			log.error("shirtDao.getBrandList", e);
 			throw e;
 		}
 	}
-	
-	public List<ShirtProperty> getSourceList() {
+
+	public List<ShirtProperty> getSourceList(Integer status) {
 		try {
-			return this.getSqlSession().selectList("shirt.getSourceList");
+			Map map = new HashMap();
+			map.put("status", status);
+			return this.getSqlSession().selectList("shirt.getSourceList", map);
 		} catch(RuntimeException e) {
 			log.error("shirtDao.getSourceList", e);
 			throw e;
 		}
 	}
-	
-	public List<ShirtProperty> getPriceRangeList() {
+
+	public List<ShirtProperty> getPriceRangeList(Integer status) {
 		try {
-			return this.getSqlSession().selectList("shirt.getPriceRangeList");
+			Map map = new HashMap();
+			map.put("status", status);
+			return this.getSqlSession().selectList("shirt.getPriceRangeList", map);
 		} catch(RuntimeException e) {
 			log.error("shirtDao.getPriceRangeList", e);
 			throw e;

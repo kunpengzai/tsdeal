@@ -31,7 +31,7 @@ public class BaseManagerServiceImpl implements BaseManagerService {
 	public List<ShirtPropertyDTO> getColorList() {
 //		if (colorList == null) {
 			colorList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtManagerDao.getColorList(null);
+			List<ShirtProperty> list = shirtManagerDao.getColorList();
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());
@@ -45,7 +45,7 @@ public class BaseManagerServiceImpl implements BaseManagerService {
 	public List<ShirtPropertyDTO> getBrandList() {
 //		if (brandList == null) {
 			brandList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtManagerDao.getBrandList(null);
+			List<ShirtProperty> list = shirtManagerDao.getBrandList();
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());
@@ -59,7 +59,7 @@ public class BaseManagerServiceImpl implements BaseManagerService {
 	public List<ShirtPropertyDTO> getSourceList() {
 //		if (sourceList == null) {
 			sourceList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtManagerDao.getSourceList(null);
+			List<ShirtProperty> list = shirtManagerDao.getSourceList();
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());
@@ -70,11 +70,11 @@ public class BaseManagerServiceImpl implements BaseManagerService {
 //		}
 		return sourceList;
 	}
-	
+/*
 	public List<ShirtPropertyDTO> getPriceRangeList() {
 //		if (priceRangeList == null) {
 			priceRangeList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtManagerDao.getPriceRangeList(null);
+			List<ShirtProperty> list = shirtManagerDao.getPriceRangeList();
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());
@@ -86,7 +86,7 @@ public class BaseManagerServiceImpl implements BaseManagerService {
 //		}
 		return priceRangeList;
 	}
-	
+	*/
 	public String getWeightScheduler() {
 		SystemParam sysParam = systemParamDao.getSystemParam(Constants.SYSTEM_NAME_MANAGER, 
 				Constants.WEIGHT_SWITCH);

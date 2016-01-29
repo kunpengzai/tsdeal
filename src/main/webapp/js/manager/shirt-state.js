@@ -73,10 +73,10 @@ function getShirtList() {
         dataType:'json',
         success:function(data){
         	if (data.flag == 0) {
+				$("#shirt-state-data").empty();
         		if (data.shirtList == null) {
         			return;
         		}
-        		$("#shirt-state-data").empty();
         		var shirtList = JSON.parse(data.shirtList);
         		$.each(shirtList,function(index, item) {
 	        		$("#shirt-state-data").append(

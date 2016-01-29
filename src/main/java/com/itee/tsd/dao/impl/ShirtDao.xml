@@ -2,23 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shirt">
 	<select id="getMoreShirt" parameterType="com.itee.tsd.entity.Shirt" resultType="com.itee.tsd.dto.ShirtDTO">
-		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight, 
-			(select sb.name from shirt_brand sb where sb.id=s.brandId) brandName, 
-			(select ss.name from shirt_source ss where ss.id=s.sourceId) sourceName, 
-			s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,if(sl.clickNum is null, 0, sl.clickNum) clickNum, 
-			(select group_concat(sc.name separator '/') from shirt_param sp, shirt_color sc where 
-			sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0) colorNames 
-		from shirt s left join shirt_log sl on sl.shirtId=s.id 
+		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight,
+		sb.name	brandName,ss.name sourceName,s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,
+			(select group_concat(sc.color separator ',') from shirt_param sp, shirt_color sc
+				where sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0
+					<choose>
+						<when test="colorId != null">
+							<choose>
+								<when test="colorId == 1000"> and sc.status = 1 </when>
+								<otherwise> and sc.id=#{colorId} and sc.status > 0 </otherwise>
+							</choose>
+						</when>
+						<otherwise> and sc.status > 0 </otherwise>
+					</choose>
+			) colorNames
+		from shirt s inner join shirt_brand sb on s.brandId=sb.id
+			<choose>
+				<when test="brandId != null">
+					<choose>
+						<when test="brandId == 1000"> and sb.status = 1 </when>
+						<otherwise> and sb.id=#{brandId} and sb.status > 0 </otherwise>
+					</choose>
+				</when>
+				<otherwise> and sb.status > 0 </otherwise>
+			</choose>
+		inner join shirt_source ss on s.sourceId=ss.id
+			<choose>
+				<when test="sourceId != null">
+					<choose>
+						<when test="sourceId == 1000"> and ss.status = 1 </when>
+						<otherwise> and ss.id=#{sourceId} and ss.status > 0 </otherwise>
+					</choose>
+				</when>
+				<otherwise> and ss.status > 0 </otherwise>
+			</choose>
 		<where>
-			<if test="colorIds != null">
-				s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId in(${colorIds}) and sp1.status=0) 
-			</if>
-			<if test="sourceId != null">
-				and s.sourceId=#{sourceId} 
-			</if>
-			<if test="brandId != null">
-				and s.brandId=#{brandId} 
-			</if>
+			s.id in (select distinct sp1.shirtId from shirt_param sp1, shirt_color sc1 where sp1.colorId=sc1.id and sp1.status=0
+				<choose>
+					<when test="colorId != null">
+						<choose>
+							<when test="colorId == 1000"> and sc1.status = 1 </when>
+							<otherwise> and sc1.id=#{colorId} and sc1.status > 0 </otherwise>
+						</choose>
+					</when>
+					<otherwise> and sc1.status > 0 </otherwise>
+				</choose>
+			)
 			<if test="isActive != null">
 				and s.isActive=#{isActive} 
 			</if>
@@ -57,6 +86,76 @@
 			limit ${(pageNum-1) * pageSize}, ${pageSize} 
 		</if>
 	</select>
+
+	<!--<select id="getMoreShirt" parameterType="com.itee.tsd.entity.Shirt" resultType="com.itee.tsd.dto.ShirtDTO">
+		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight,
+		(select sb.name from shirt_brand sb where sb.id=s.brandId) brandName,
+		(select ss.name from shirt_source ss where ss.id=s.sourceId) sourceName,
+		s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,if(sl.clickNum is null, 0, sl.clickNum) clickNum,
+		(select group_concat(sc.color separator ',') from shirt_param sp, shirt_color sc where
+		sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0 and sc.status &gt; 0) colorNames
+		from shirt s left join shirt_log sl on sl.shirtId=s.id
+		<where>
+			<choose>
+				<when test="colorId != 1000">
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+			<if test="colorId != null">
+				<choose>
+					<when test="colorId != 1000">
+						s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId=${colorId} and sp1.status=0)
+					</when>
+					<otherwise>
+						s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId not in(${showColorIds}) and sp1.status=0)
+					</otherwise>
+				</choose>
+			</if>
+			<if test="sourceId != null">
+				and s.sourceId=#{sourceId}
+			</if>
+			<if test="brandId != null">
+				and s.brandId=#{brandId}
+			</if>
+			<if test="isActive != null">
+				and s.isActive=#{isActive}
+			</if>
+			<if test="design != null">
+				and s.design=#{design}
+			</if>
+			<if test="sleeve != null">
+				and s.sleeve=#{sleeve}
+			</if>
+			<if test="status != null">
+				and s.status=#{status}
+			</if>
+			<if test="minPrice != null">
+				and s.minPrice &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				and s.maxPrice &lt;= #{maxPrice}
+			</if>
+			<if test="beginTime != null">
+				and s.createTime &gt;= #{beginTime}
+			</if>
+			<if test="endTime != null">
+				and s.createTime &lt;= #{endTime}
+			</if>
+			<if test="minWeight != null">
+				and s.weight &gt;= #{minWeight}
+			</if>
+			<if test="maxWeight != null">
+				and s.weight &lt;= #{maxWeight}
+			</if>
+		</where>
+		<if test="orderCont != null">
+			order by ${orderCont}
+		</if>
+		<if test="pageNum != null and pageSize != null">
+			limit ${(pageNum-1) * pageSize}, ${pageSize}
+		</if>
+	</select>-->
 	
 	<update id="updateShirtLog" parameterType="Map">
 		update shirt_log 
@@ -67,20 +166,44 @@
 		</set>
 		where shirtId=#{shirtId} 
 	</update>
-    
-    <select id="getColorList" resultType="com.itee.tsd.entity.ShirtProperty">
-		select sc.id, sc.name, sc.order, sc.status from shirt_color sc where sc.status=0 order by sc.order
+
+	<select id="getColorList" parameterType="Map" resultType="com.itee.tsd.entity.ShirtProperty">
+		select sc.id, sc.name, sc.order, sc.status from shirt_color sc
+		<where>
+			<if test="status != null">
+				sc.status &gt; #{status}
+			</if>
+		</where>
+		order by sc.order
 	</select>
-	
-	<select id="getBrandList" resultType="com.itee.tsd.entity.ShirtProperty">
-		select sb.id, sb.name, sb.order, sb.status from shirt_brand sb where sb.status=0 order by sb.order
+
+	<select id="getBrandList" parameterType="Map" resultType="com.itee.tsd.entity.ShirtProperty">
+		select sb.id, sb.name, sb.order, sb.status from shirt_brand sb
+		<where>
+			<if test="status != null">
+				sb.status &gt; #{status}
+			</if>
+		</where>
+		order by sb.order
 	</select>
-	
-	<select id="getSourceList" resultType="com.itee.tsd.entity.ShirtProperty">
-		select ss.id, ss.name, ss.order, ss.status from shirt_source ss where ss.status=0 order by ss.order
+
+	<select id="getSourceList" parameterType="Map" resultType="com.itee.tsd.entity.ShirtProperty">
+		select ss.id, ss.name, ss.order, ss.status from shirt_source ss
+		<where>
+			<if test="status != null">
+				ss.status &gt; #{status}
+			</if>
+		</where>
+		order by ss.order
 	</select>
-	
-	<select id="getPriceRangeList" resultType="com.itee.tsd.entity.ShirtProperty">
-		select pr.id, pr.minPrice, pr.maxPrice, pr.order, pr.status from price_range pr where pr.status=0 order by pr.order
+
+	<select id="getPriceRangeList" parameterType="Map" resultType="com.itee.tsd.entity.ShirtProperty">
+		select pr.id, pr.minPrice, pr.maxPrice, pr.order, pr.status from price_range pr
+		<where>
+			<if test="status != null">
+				pr.status = #{status}
+			</if>
+		</where>
+		order by pr.order
 	</select>
 </mapper>

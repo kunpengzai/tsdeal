@@ -15,12 +15,14 @@ public class SearchInfo implements Serializable {
 	private Integer isActive;//0:有效 1:失效
 	private String beginDate;
 	private String endDate;
-	
+
+	private Integer colorId;
 	private String colorIds;//colorId以逗号分隔
-	private Integer design;//0:纯色 1:有图案
-	private Integer sleeve;//0:长袖 1:短袖
+	private Integer design;//1:纯色 2:有图案 3:印花 4:条纹
+	private Integer sleeve;//1:长袖 2:短袖
 	private Float minPrice;
 	private Float maxPrice;
+	private Integer priceRangeId;
 	
 	public Integer getBrandId() {
 		return brandId;
@@ -52,6 +54,15 @@ public class SearchInfo implements Serializable {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+
+	public Integer getColorId() {
+		return colorId;
+	}
+
+	public void setColorId(Integer colorId) {
+		this.colorId = colorId;
+	}
+
 	public String getColorIds() {
 		return colorIds;
 	}
@@ -81,5 +92,13 @@ public class SearchInfo implements Serializable {
 	}
 	public void setMaxPrice(Float maxPrice) {
 		this.maxPrice = maxPrice;
+	}
+
+	public Integer getPriceRangeId() {
+		return priceRangeId;
+	}
+
+	public void setPriceRangeId(Integer priceRangeId) {
+		this.priceRangeId = priceRangeId;
 	}
 }

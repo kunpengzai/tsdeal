@@ -7,11 +7,11 @@
 			(select ss.name from shirt_source ss where ss.id=s.sourceId) sourceName, 
 			s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,if(sl.clickNum is null, 0, sl.clickNum) clickNum, 
 			(select group_concat(sc.name separator '/') from shirt_param sp, shirt_color sc where 
-			sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0) colorNames 
+			sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0 and sc.status>0) colorNames
 		from shirt s left join shirt_log sl on sl.shirtId=s.id 
 		<where>
 			<if test="colorIds != null">
-				s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId in(${colorIds}) and sp1.status=0) 
+				s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId in(${colorIds}) and sp1.status=0)
 			</if>
 			<if test="sourceId != null">
 				and s.sourceId=#{sourceId} 
@@ -62,7 +62,7 @@
 		select count(s.id) from shirt s 
 		<where>
 			<if test="colorIds != null">
-				s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId in(${colorIds}) and sp1.status=0) 
+				s.id in(select distinct sp1.shirtId from shirt_param sp1 where sp1.colorId in(${colorIds}) and sp1.status=0)
 			</if>
 			<if test="sourceId != null">
 				and s.sourceId=#{sourceId} 
@@ -109,10 +109,11 @@
 	<select id="getShirt" parameterType="Long" resultType="com.itee.tsd.dto.ShirtDTO">
 		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,
 			s.imgType,s.shirtImg,s.status,s.weight,s.createTime,s.updateTime,
-			(select group_concat(sp.colorId separator ',') from shirt_param sp where sp.shirtId=s.id and sp.status=0) colorIds 
+			(select group_concat(sp.colorId separator ',') from shirt_param sp, shirt_color sc where
+				sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0 and sc.status &gt; 0) colorIds
 		from shirt s where s.id=#{shirtId} limit 1 
 	</select>
-	
+
 	<update id="updateShirt" parameterType="com.itee.tsd.entity.Shirt">
 		update shirt 
 		<set>
@@ -197,44 +198,16 @@
 	    insert into shirt_log (shirtId,clickNum) 
 	    values (#{shirtId}, 0)
     </insert>
-    
-    <select id="getColorList" parameterType="Integer" resultType="com.itee.tsd.entity.ShirtProperty">
-		select sc.id, sc.name, sc.order, sc.status from shirt_color sc 
-		<where>
-			<if test="status != null">
-				and sc.status=#{status} 
-			</if>
-		</where>
-		order by sc.order
+
+	<select id="getColorList" resultType="com.itee.tsd.entity.ShirtProperty">
+		select sc.id, sc.name, sc.order, sc.status from shirt_color sc where sc.status &gt; 0 order by sc.order
 	</select>
-	
-	<select id="getBrandList" parameterType="Integer" resultType="com.itee.tsd.entity.ShirtProperty">
-		select sb.id, sb.name, sb.order, sb.status from shirt_brand sb 
-		<where>
-			<if test="status != null">
-				and sb.status=#{status} 
-			</if>
-		</where>
-		order by sb.order
+
+	<select id="getBrandList" resultType="com.itee.tsd.entity.ShirtProperty">
+		select sb.id, sb.name, sb.order, sb.status from shirt_brand sb where sb.status &gt; 0 order by sb.order
 	</select>
-	
-	<select id="getSourceList" parameterType="Integer" resultType="com.itee.tsd.entity.ShirtProperty">
-		select ss.id, ss.name, ss.order, ss.status from shirt_source ss 
-		<where>
-			<if test="status != null">
-				and ss.status=#{status} 
-			</if>
-		</where>
-		order by ss.order
-	</select>
-	
-	<select id="getPriceRangeList" parameterType="Integer" resultType="com.itee.tsd.entity.ShirtProperty">
-		select pr.id, pr.minPrice, pr.maxPrice, pr.order, pr.status from price_range pr 
-		<where>
-			<if test="status != null">
-				and pr.status=#{status} 
-			</if>
-		</where>
-		order by pr.order
+
+	<select id="getSourceList" resultType="com.itee.tsd.entity.ShirtProperty">
+		select ss.id, ss.name, ss.order, ss.status from shirt_source ss where ss.status &gt; 0 order by ss.order
 	</select>
 </mapper>

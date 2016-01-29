@@ -37,7 +37,7 @@ public class ShirtWeightServiceImpl implements ShirtWeightService {
 			Integer weight = wShirtList.get(0).getWeight() + 1;
 			SystemParam wSysParam = systemParamDao.getSystemParam(Constants.SYSTEM_NAME_MANAGER, 
 					Constants.WEIGHT_CHANGE_SHIRT_NUM);
-			List<ShirtProperty> brandIdlist = shirtManagerDao.getBrandList(0);
+			List<ShirtProperty> brandIdlist = shirtManagerDao.getBrandList();
 			for (ShirtProperty sp : brandIdlist) {
 				Shirt shirt = new Shirt();
 				shirt.setBrandId(sp.getId().intValue());

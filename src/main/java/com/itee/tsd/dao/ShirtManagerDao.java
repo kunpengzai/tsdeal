@@ -30,13 +30,11 @@ public interface ShirtManagerDao {
 	public Long saveShirtParam(ShirtParam shirtParam);
 	
 	public void saveShirtLog(Long shirtId);
-	
-	public List<ShirtProperty> getColorList(Integer status);
-	
-	public List<ShirtProperty> getBrandList(Integer status);
-	
-	public List<ShirtProperty> getSourceList(Integer status);
-	
-	public List<ShirtProperty> getPriceRangeList(Integer status);
-	
+
+	public List<ShirtProperty> getColorList();
+
+	public List<ShirtProperty> getBrandList();
+
+	public List<ShirtProperty> getSourceList();
+
 }

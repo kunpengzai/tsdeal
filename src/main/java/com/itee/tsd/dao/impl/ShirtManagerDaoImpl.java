@@ -94,39 +94,30 @@ public class ShirtManagerDaoImpl extends BaseDaoImpl implements ShirtManagerDao 
 			throw e;
 		}
 	}
-	
-	public List<ShirtProperty> getColorList(Integer status) {
+
+	public List<ShirtProperty> getColorList() {
 		try {
-			return this.getSqlSession().selectList("shirtManager.getColorList", status);
+			return this.getSqlSession().selectList("shirtManager.getColorList");
 		} catch(RuntimeException e) {
 			log.error("shirtManagerDao.getColorList", e);
 			throw e;
 		}
 	}
-	
-	public List<ShirtProperty> getBrandList(Integer status) {
+
+	public List<ShirtProperty> getBrandList() {
 		try {
-			return this.getSqlSession().selectList("shirtManager.getBrandList", status);
+			return this.getSqlSession().selectList("shirtManager.getBrandList");
 		} catch(RuntimeException e) {
 			log.error("shirtManagerDao.getBrandList", e);
 			throw e;
 		}
 	}
-	
-	public List<ShirtProperty> getSourceList(Integer status) {
+
+	public List<ShirtProperty> getSourceList() {
 		try {
-			return this.getSqlSession().selectList("shirtManager.getSourceList", status);
+			return this.getSqlSession().selectList("shirtManager.getSourceList");
 		} catch(RuntimeException e) {
 			log.error("shirtManagerDao.getSourceList", e);
-			throw e;
-		}
-	}
-	
-	public List<ShirtProperty> getPriceRangeList(Integer status) {
-		try {
-			return this.getSqlSession().selectList("shirtManager.getPriceRangeList", status);
-		} catch(RuntimeException e) {
-			log.error("shirtManagerDao.getPriceRangeList", e);
 			throw e;
 		}
 	}

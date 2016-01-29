@@ -38,12 +38,8 @@ public class ShirtServiceImpl implements ShirtService {
 		if (searchInfo.getMaxPrice() != null) {
 			shirt.setMaxPrice(searchInfo.getMaxPrice());
 		}
-		String colorIds = searchInfo.getColorIds();
-		if (StringUtils.isNotBlank(colorIds)) {
-			if (colorIds.endsWith(",")) {
-				colorIds = colorIds.substring(0, colorIds.length() - 1);
-				shirt.setColorIds(colorIds);
-			}
+		if (searchInfo.getColorId() != null && searchInfo.getColorId() > 0) {
+			shirt.setColorId(searchInfo.getColorId());
 		}
 		if (searchInfo.getBrandId() != null && searchInfo.getBrandId() > 0) {
 			shirt.setBrandId(searchInfo.getBrandId());

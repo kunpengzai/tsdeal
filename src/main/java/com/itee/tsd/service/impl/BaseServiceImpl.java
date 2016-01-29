@@ -26,7 +26,7 @@ public class BaseServiceImpl implements BaseService {
 	public List<ShirtPropertyDTO> getColorList() {
 //		if (colorList == null) {
 			colorList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtDao.getColorList();
+			List<ShirtProperty> list = shirtDao.getColorList(1);
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());
@@ -40,7 +40,7 @@ public class BaseServiceImpl implements BaseService {
 	public List<ShirtPropertyDTO> getBrandList() {
 //		if (brandList == null) {
 			brandList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtDao.getBrandList();
+			List<ShirtProperty> list = shirtDao.getBrandList(1);
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());
@@ -54,7 +54,7 @@ public class BaseServiceImpl implements BaseService {
 	public List<ShirtPropertyDTO> getSourceList() {
 //		if (sourceList == null) {
 			sourceList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtDao.getSourceList();
+			List<ShirtProperty> list = shirtDao.getSourceList(1);
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());
@@ -69,7 +69,7 @@ public class BaseServiceImpl implements BaseService {
 	public List<ShirtPropertyDTO> getPriceRangeList() {
 //		if (priceRangeList == null) {
 			priceRangeList = new ArrayList<ShirtPropertyDTO>();
-			List<ShirtProperty> list = shirtDao.getPriceRangeList();
+			List<ShirtProperty> list = shirtDao.getPriceRangeList(0);
 			for (ShirtProperty sp : list) {
 				ShirtPropertyDTO dto = new ShirtPropertyDTO();
 				dto.setId(sp.getId());

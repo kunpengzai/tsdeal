@@ -12,7 +12,7 @@ public interface BaseManagerService {
 	
 	public List<ShirtPropertyDTO> getSourceList();
 	
-	public List<ShirtPropertyDTO> getPriceRangeList();
+//	public List<ShirtPropertyDTO> getPriceRangeList();
 	
 	public String getWeightScheduler();
 }

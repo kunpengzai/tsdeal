@@ -30,7 +30,8 @@ public class Shirt implements Serializable {
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private Integer clickNum;
-	
+
+	private Integer colorId;
 	private String colorIds;//Id以逗号分隔
 	private Timestamp beginTime;
 	private Timestamp endTime;
@@ -152,6 +153,15 @@ public class Shirt implements Serializable {
 	public void setClickNum(Integer clickNum) {
 		this.clickNum = clickNum;
 	}
+
+	public Integer getColorId() {
+		return colorId;
+	}
+
+	public void setColorId(Integer colorId) {
+		this.colorId = colorId;
+	}
+
 	public String getColorIds() {
 		return colorIds;
 	}
