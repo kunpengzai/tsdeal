@@ -17,7 +17,7 @@
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<link rel="shortcut icon" href="/img/favicon.ico">
-	<link rel="stylesheet" href="<%=path%>/css/common/common.css?t=20151206000"/>
+<%--	<link rel="stylesheet" href="<%=path%>/css/common/common.css?t=20151206000"/>--%>
 	
     <title>itee 最好的T恤推荐平台</title>
    	<link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206000"/>
@@ -31,9 +31,20 @@
 		  	<span class="s-header-left-2">最好的T恤推荐平台</span>
 			<span class="s-header-right-2">关注我们</span>
 		  	<span class="s-header-right-1"><img src="../img/search.png"></span>
+			<span class="s-header-right-0"><input type="text" id="s-search" placeholder="搜索" /></span>
 		</div>
 		<div class="s-header-border"></div>
   	</div>
+	<div class="qrcode-layer-part">
+		<div class="qrcode-layer">
+			<div class="qrcode-border-img">
+				<img src="../img/triangle.png">
+			</div>
+			<div class="qrcode-content">
+				<img src="../img/qrcode.png" width="128px" height="128px">
+			</div>
+		</div>
+	</div>
   	<!-- header part end -->
   	<div class="s-filter">
 	  	<div class="s-interval-1"></div>
@@ -197,7 +208,7 @@
 	  	<%--</div>--%>
   	</div>
 	<div id="s-container" class="s-shirt-content">
-		<%--<div class="s-item"><img src="../img/shirt_4_8408_20151227161800.jpg" width="220px"/></div>
+		<%--<li class="s-item"><img src="../img/shirt_4_8408_20151227161800.jpg" width="220px"/></div>
 		<div class="s-item"><img src="../img/shirt_17_47_20151229154924.jpg" width="220px"/></div>
 		<div class="s-item"><img src="../img/shirt_19_3209_20151229155136.jpg" width="220px"/></div>
 		<div class="s-item"><img src="../img/shirt_17_47_20151229154924.jpg" width="220px"/></div>
@@ -368,9 +379,12 @@
 				</div>
 			</div>--%>
 	</div>
+	<div class="s-shirt-not-data">没有查到相关T恤，再换个试试呗~~~</div>
 	<div class="get-more-btn">
 		<span>加载更多</span>
 	</div>
+  	<div class="s-shirt-blank"></div>
+
   </body>
   <%@include file="../layout/commonjs.jsp" %>
   <script src="<%=path%>/js/shirt/shirt-list.js?t=20151206000"></script>

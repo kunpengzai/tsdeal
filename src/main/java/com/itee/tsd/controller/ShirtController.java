@@ -50,7 +50,7 @@ public class ShirtController {
 	@ResponseBody
 	@RequestMapping(value="get-more-shirt", produces="application/json;charset=UTF-8")
 	public Map<String, Object> getMoreShirt(HttpServletRequest request, 
-			SearchInfo searchInfo, PageInfo pageInfo) {
+			SearchInfo searchInfo, PageInfo pageInfo) throws Exception {
 		Map<String, Object> m = shirtService.getMoreShirt(searchInfo, pageInfo);
 		return m;
 	}

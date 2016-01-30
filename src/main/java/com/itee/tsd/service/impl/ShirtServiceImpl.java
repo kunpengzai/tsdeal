@@ -1,5 +1,6 @@
 package com.itee.tsd.service.impl;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +29,14 @@ public class ShirtServiceImpl implements ShirtService {
 	@Resource
 	private ShirtDao shirtDao;
 
-	public Map<String, Object> getMoreShirt(SearchInfo searchInfo, PageInfo pageInfo) {
+	public Map<String, Object> getMoreShirt(SearchInfo searchInfo, PageInfo pageInfo) throws Exception {
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("flag", 0);
 		Shirt shirt = new Shirt();
+		if (StringUtils.isNotBlank(searchInfo.getKeyword())) {
+			String keyword = URLDecoder.decode(searchInfo.getKeyword(), "utf-8");
+			shirt.setTitle(keyword);
+		}
 		if (searchInfo.getMinPrice() != null) {
 			shirt.setMinPrice(searchInfo.getMinPrice());
 		}

@@ -7,12 +7,13 @@ var design = 0;
 var sleeve = 0;
 var otherId = 10000;//"其他"的ID
 var minPrice, maxPrice;
+var pageWidth = 1000;
 
 $(function() {
-	$('#s-container').masonry({
-		itemSelector : '.s-item',
-		columnWidth : 260
-	});
+	//$('#s-container').masonry({
+	//	itemSelector : '.s-item',
+	//	columnWidth : 260
+	//});
 
 	//var $container = $('#s-container');
 	//$container.imagesLoaded(function() {
@@ -85,6 +86,30 @@ $(function() {
 		sleeve = $(this).attr("data-value");
 		pageNum = 1;
 		getMoreShirt();
+	});
+
+	$(".s-header-right-1").on('click', function(){
+		$("#s-search").animate({width: '190px'}, "slow");
+		$('#s-search').focus();
+		pageNum = 1;
+		getMoreShirt();
+	});
+
+	$("#s-search").on('keydown',function(e){
+		var key = e.which;
+		if (key == 13) {
+			e.preventDefault();
+			pageNum = 1;
+			getMoreShirt();
+		}
+	});
+
+	$(".s-header-right-2").on('mouseover', function(){
+		$(".qrcode-layer").css('marginLeft',(pageWidth-240-5)+'px');
+		$(".qrcode-layer-part").show();
+	});
+	$(".s-header-right-2").on('mouseout', function(){
+		$(".qrcode-layer-part").hide();
 	});
 });
 
@@ -168,7 +193,10 @@ function imgLoad1 (parent, content) {
 }
 
 function getMoreShirt() {
-	var url = "get-more-shirt.htm?pageNum="+pageNum+"&pageSize=16";
+	$(".s-shirt-blank").hide();
+	$(".s-shirt-not-data").hide();
+	var pageSize = 8;
+	var url = "get-more-shirt.htm?pageNum="+pageNum+"&pageSize="+pageSize;
 	if (colorId != 0) {
 		url += "&colorId="+colorId;
 	}
@@ -187,6 +215,10 @@ function getMoreShirt() {
 	if (priceRangeId != 0) {
 		url += "&minPrice="+minPrice+"&maxPrice="+maxPrice;
 	}
+	var keyword = $.trim($("#s-search").val());
+	if (keyword.length > 0) {
+		url += "&keyword="+encodeURI(encodeURI(keyword));
+	}
 	$.ajax({
         type:'get',
         url:url,
@@ -198,17 +230,24 @@ function getMoreShirt() {
 					//$(".s-list").empty();
 					$("#s-container").empty();
 				}
-        		pageNum += 1;
         		var shirtList = JSON.parse(data.shirtList);
-        		console.log(shirtList);
-        		if (shirtList.length == 0) {
+				console.log(shirtList.length);
+				if (shirtList.length == 0 && pageNum == 1) {
+					$(".s-shirt-not-data").show();
+				}
+        		if (shirtList.length < pageSize) {
         			$(".get-more-btn").hide();
-        		}
+					$(".s-shirt-blank").show();
+        		} else {
+					$(".get-more-btn").show();
+				}
+				pageNum += 1;
         		$.each(shirtList, function(index, item) {
 					var colorNames = item.colorNames.split(",");
 					//var htm = '<div class="s-box">'
-					var htm = '<div class="s-item">'
-								+ '<img src="'+(item.imgType==1?data.baseUrl:'')+item.shirtImg+'" width="220px"/>'
+					var htm = '<div class="s-item" onclick="openShirtUrl(\''+item.linkUrl+'\');">'
+								//+ '<img src="'+(item.imgType==1?data.baseUrl:'')+item.shirtImg+'" width="220px"/>'
+							+ '<div class="shirtImg" style="background:url('+(item.imgType==1?data.baseUrl:'')+item.shirtImg+') no-repeat top center"></div>'
 								+ '<div class="s-box-s-content">'
 									+ '<div class="s-box-s-title">' + item.shirtId + item.title + '</div>'
 									+ '<div class="s-box-s-interval"></div>'
@@ -228,14 +267,20 @@ function getMoreShirt() {
 									+ '</div>'
 								+ '</div>';
     				//$(".s-list").append(htm);
-					console.log(htm)
+                    //console.log(htm);
                     $("#s-container").append($(htm));
+					//图片自适应
+					fitImg();
     			});
 				//imgLoad(".s-list",".s-box");
         	}
 	       	return;
        	}
     });
+}
+
+function openShirtUrl(url) {
+	window.open(url);
 }
 
 /*
@@ -285,3 +330,35 @@ function getContents(parent,content){
 }
 
 		*/
+
+
+function fitImg(){
+	$('.shirtImg').each(function(i,e){
+		var s = $(this).attr('style');
+		index_s = s.indexOf("(");
+		index_e = s.indexOf(")");
+		var url = s.substring(index_s+1,index_e);
+		var img = new Image();
+		var imgWidth;
+		var imgHeight;
+		img.src = url;
+		if (img.complete) {
+			imgWidth = img.width;
+			imgHeight = img.height;
+			if (imgWidth < imgHeight) {
+				$(e).removeClass('shirtImg');
+				$(e).addClass('shirtImg2');
+			}
+		} else {
+			img.onload = function () {
+				imgWidth = img.width;
+				imgHeight = img.height;
+				if (imgWidth < imgHeight) {
+					$(e).removeClass('shirtImg');
+					$(e).addClass('shirtImg2');
+				}
+				img.onload = null;
+			};
+		}
+	});
+}

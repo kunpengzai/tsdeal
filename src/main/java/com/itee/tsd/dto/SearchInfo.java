@@ -23,6 +23,7 @@ public class SearchInfo implements Serializable {
 	private Float minPrice;
 	private Float maxPrice;
 	private Integer priceRangeId;
+	private String keyword;
 	
 	public Integer getBrandId() {
 		return brandId;
@@ -100,5 +101,13 @@ public class SearchInfo implements Serializable {
 
 	public void setPriceRangeId(Integer priceRangeId) {
 		this.priceRangeId = priceRangeId;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 }

@@ -48,6 +48,9 @@
 					<otherwise> and sc1.status > 0 </otherwise>
 				</choose>
 			)
+			<if test="title != null">
+				and s.title like '%${title}%'
+			</if>
 			<if test="isActive != null">
 				and s.isActive=#{isActive} 
 			</if>
