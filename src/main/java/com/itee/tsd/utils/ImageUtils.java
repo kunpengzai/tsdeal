@@ -19,8 +19,8 @@ public class ImageUtils {
 	 * 等比例缩放
 	 * @param srcPath
 	 * @param destPath
-	 * @param width
-	 * @param height
+	 * @param outputWidth
+	 * @param outputHeight
 	 */
 	public static void resizeImage(String srcPath, String destPath, Integer outputWidth, Integer outputHeight) {
 		try {

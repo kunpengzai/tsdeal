@@ -103,4 +103,11 @@ public class ShirtManagerController {
 		Map<String, Object> m = shirtManagerService.changeWeightScheduler(status);
 		return m;
 	}
+
+	@ResponseBody
+	@RequestMapping(value="compress-img", produces="application/json;charset=UTF-8")
+	public Map<String, Object> compressImg() {
+		Map<String, Object> m = shirtManagerService.compressImg();
+		return m;
+	}
 }

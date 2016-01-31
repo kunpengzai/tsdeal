@@ -12,6 +12,7 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
+import com.itee.tsd.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +28,6 @@ import com.itee.tsd.entity.Shirt;
 import com.itee.tsd.entity.ShirtParam;
 import com.itee.tsd.entity.SystemParam;
 import com.itee.tsd.service.ShirtManagerService;
-import com.itee.tsd.utils.Config;
-import com.itee.tsd.utils.Constants;
-import com.itee.tsd.utils.DateUtils;
-import com.itee.tsd.utils.DownloadUtils;
-import com.itee.tsd.utils.JsonBinder;
 
 /**
  * 
@@ -172,8 +168,10 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				if (dto.getImgType() == 1) {
 					if (shirt.getImgType() == 2) {
 						deleteFile(Config.getProperty("SAVE_SHIRT_IMG_PATH") + dto.getShirtImg());
+						deleteFile(Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH") + dto.getShirtImg());
 					} else if (shirt.getImgType() == 1 && imageFile != null && imageFile.getSize() > 0) {
 						deleteFile(Config.getProperty("SAVE_SHIRT_IMG_PATH") + dto.getShirtImg());
+						deleteFile(Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH") + dto.getShirtImg());
 					}
 				}
 				if (shirt.getImgType() == 1 && imageFile != null && imageFile.getSize() > 0) {
@@ -256,7 +254,20 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		m.put("flag", 0);
 		return m;
 	}
-	
+
+	public Map<String, Object> compressImg() {
+		Map<String, Object> m = new HashMap<String, Object>();
+		String path = Config.getProperty("SAVE_SHIRT_IMG_PATH");
+		File file = new File(path);
+		String[] files = file.list();
+		for (String fileName : files) {
+			ImageUtils.resizeImage(path+fileName,
+					Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH")+fileName, 220, 220);
+		}
+		m.put("flag", 0);
+		return m;
+	}
+
 	private String uploadFile(MultipartFile imageFile, Long shirtId) throws IOException {
 		String originalFilename = imageFile.getOriginalFilename();
 		String extFileName = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -267,6 +278,8 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		
 		DownloadUtils.getFile(imageFile.getInputStream(), newFileName, 
 				Config.getProperty("SAVE_SHIRT_IMG_PATH"));
+		ImageUtils.resizeImage(Config.getProperty("SAVE_SHIRT_IMG_PATH")+newFileName,
+				Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH")+newFileName, 220, 220);
 		return newFileName;
 	}
 	

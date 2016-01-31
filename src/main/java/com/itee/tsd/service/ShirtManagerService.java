@@ -30,4 +30,6 @@ public interface ShirtManagerService {
 	public Map<String, Object> changeShirtStatus(Long shirtId, Integer status);
 	
 	public Map<String, Object> changeWeightScheduler(Integer status);
+
+	public Map<String, Object> compressImg();
 }
