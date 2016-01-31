@@ -8,4 +8,6 @@ import com.itee.tsd.dto.SearchInfo;
 public interface ShirtService {
 
 	public Map<String, Object> getMoreShirt(SearchInfo searchInfo, PageInfo pageInfo) throws Exception;
+
+	public Map<String, Object> clickPoint(Long shirtId);
 }

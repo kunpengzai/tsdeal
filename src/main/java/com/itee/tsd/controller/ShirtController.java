@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itee.tsd.dto.PageInfo;
@@ -52,6 +53,13 @@ public class ShirtController {
 	public Map<String, Object> getMoreShirt(HttpServletRequest request, 
 			SearchInfo searchInfo, PageInfo pageInfo) throws Exception {
 		Map<String, Object> m = shirtService.getMoreShirt(searchInfo, pageInfo);
+		return m;
+	}
+
+	@ResponseBody
+	@RequestMapping(value="click-point", produces="application/json;charset=UTF-8", method= RequestMethod.POST)
+	public Map<String, Object> clickPoint(Long shirtId) {
+		Map<String, Object> m = shirtService.clickPoint(shirtId);
 		return m;
 	}
 }

@@ -58,6 +58,7 @@ public class ShirtServiceImpl implements ShirtService {
 		if (searchInfo.getSleeve() != null && searchInfo.getSleeve() > 0) {
 			shirt.setSleeve(searchInfo.getSleeve());
 		}
+//		shirt.setMinWeight(1);
 		if (pageInfo != null) {
 			if (pageInfo.getPageNum() == null) {
 				pageInfo.setPageNum(1);
@@ -74,6 +75,13 @@ public class ShirtServiceImpl implements ShirtService {
 		List<ShirtDTO> list = shirtDao.getMoreShirt(shirt);
 		m.put("shirtList", JsonBinder.buildNormalBinder().toJson(list));
 		m.put("baseUrl", Config.getProperty("BASE_IMG_URL"));
+		return m;
+	}
+
+	public Map<String, Object> clickPoint(Long shirtId) {
+		Map<String, Object>  m = new HashMap<String, Object>();
+		shirtDao.updateShirtLog(shirtId, 1);
+		m.put("flag", 0);
 		return m;
 	}
 }

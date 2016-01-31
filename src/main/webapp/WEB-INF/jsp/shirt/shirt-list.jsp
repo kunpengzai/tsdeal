@@ -5,33 +5,31 @@
   <head>
   
   	<meta charset="utf-8"/>
-	<!-- <script> 
+	<script>
 	    var phoneWidth = parseInt(window.screen.width);
 	    var phoneScale = phoneWidth / 640;
 	    document.write('<meta name="viewport" content="width=640, initial-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', user-scalable=no target-densitydpi=device-dpi">');
 	</script>
 	<meta name="format-detection" content="telephone=no">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" /> -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<link rel="shortcut icon" href="/img/favicon.ico">
-<%--	<link rel="stylesheet" href="<%=path%>/css/common/common.css?t=20151206000"/>--%>
-	
     <title>itee 最好的T恤推荐平台</title>
    	<link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206000"/>
   </head>
   <body>
  	<!-- header part start -->
- 	<div class="s-header-top"></div>	
+ 	<div class="s-header-top"></div>
   	<div class="s-header-part">
 		<div class="s-header-1">
 		  	<span class="s-header-left-1">itee</span>
 		  	<span class="s-header-left-2">最好的T恤推荐平台</span>
 			<span class="s-header-right-2">关注我们</span>
-		  	<span class="s-header-right-1"><img src="../img/search.png"></span>
-			<span class="s-header-right-0"><input type="text" id="s-search" placeholder="搜索" /></span>
+			<span class="s-header-right-1"><img id="s-show-search" src="../img/search1.png"></span>
+			<span class="s-header-right-0"><input type="text" id="s-search" placeholder="搜索" /><img id="s-search-btn" src="../img/search2.png"></span>
 		</div>
 		<div class="s-header-border"></div>
   	</div>

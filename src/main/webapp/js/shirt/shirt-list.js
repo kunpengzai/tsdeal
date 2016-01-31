@@ -7,9 +7,30 @@ var design = 0;
 var sleeve = 0;
 var otherId = 10000;//"其他"的ID
 var minPrice, maxPrice;
-var pageWidth = 1000;
+var pcClient = true;
 
 $(function() {
+	pcClient = isPC();
+	if (pcClient == true) {
+	    $(".s-filter").show();
+		$(".s-header-1").css("width", "1000px");
+		$(".s-shirt-content").css("width", "1000px");
+		$(".s-header-right-2").on('mouseover', function(){
+			$(".qrcode-layer").css('marginLeft',(1000-240-5)+'px');
+			$(".qrcode-layer-part").show();
+		});
+		$(".s-header-right-2").on('mouseout', function(){
+			$(".qrcode-layer-part").hide();
+		});
+	} else {
+		$(".s-header-1").css("width", "620px");
+		$(".s-header-1").css("padding", "0 10px 0 10px");
+		$(".s-shirt-content").css("width", "640px");
+		$(".s-header-right-2").on('click', function(){
+			window.location.href = "#";
+		});
+	}
+
 	//$('#s-container').masonry({
 	//	itemSelector : '.s-item',
 	//	columnWidth : 260
@@ -23,7 +44,7 @@ $(function() {
 	//		isAnimated: true
 	//	});
 	//});
-	var winWidth = $(window).width();
+	//var winWidth = $(window).width();
 	//var gap = 0;
 	//if (winWidth > 880) {
 	//	gap = (1000 -880)/3;
@@ -34,7 +55,7 @@ $(function() {
 //	$(".s-list").css("-webkit-column-gap", gap);
 //	$(".s-list").css("column-gap", gap);
 	
-	$(".s-content").css("width", "1000px");
+	//$(".s-content").css("width", "1000px");
 	
 	getMoreShirt();
 //	imgLoad(".s-list",".s-box");
@@ -43,6 +64,9 @@ $(function() {
 		getMoreShirt();
 	});
 
+	$(".s-header-left-1").on('click', function(){
+		window.location.reload();
+	});
 	$(".s-filter-price-cls").on('click', function(){
 		$(".s-filter-price-cls").css('border-bottom', 'hidden');
 		$(this).css('border-bottom', '2px solid #000000');
@@ -89,8 +113,23 @@ $(function() {
 	});
 
 	$(".s-header-right-1").on('click', function(){
-		$("#s-search").animate({width: '190px'}, "slow");
+		$(".s-header-right-1").hide();
+		$(".s-header-right-0").show();
 		$('#s-search').focus();
+		if (pcClient == true) {
+			$("#s-search").animate({width: '190px'}, "slow");
+		} else {
+			$("#s-search").animate({width: '100px'}, "slow");
+		}
+	});
+
+	$('#s-show-search').on('mouseenter',function(){
+		$(this).attr('src','../img/search2.png');
+	}).on('mouseleave',function(){
+		$(this).attr('src','../img/search1.png');
+	});
+
+	$("#s-search-btn").on('click', function(){
 		pageNum = 1;
 		getMoreShirt();
 	});
@@ -103,13 +142,13 @@ $(function() {
 			getMoreShirt();
 		}
 	});
-
-	$(".s-header-right-2").on('mouseover', function(){
-		$(".qrcode-layer").css('marginLeft',(pageWidth-240-5)+'px');
-		$(".qrcode-layer-part").show();
-	});
-	$(".s-header-right-2").on('mouseout', function(){
-		$(".qrcode-layer-part").hide();
+	$("#s-search").on('blur',function(){
+		if($.trim($("#s-search").val()) == ''){
+			$('#s-search').animate({width: '0px'}, "slow",function(){
+				$('.s-header-right-0').hide();
+				$('.s-header-right-1').show();
+			});
+		}
 	});
 });
 
@@ -245,11 +284,16 @@ function getMoreShirt() {
         		$.each(shirtList, function(index, item) {
 					var colorNames = item.colorNames.split(",");
 					//var htm = '<div class="s-box">'
-					var htm = '<div class="s-item" onclick="openShirtUrl(\''+item.linkUrl+'\');">'
+					var htm = '';
+					if (pcClient == true) {
+						htm = '<div class="s-item" onclick="openShirtUrl(\''+item.linkUrl+'\','+item.shirtId+');">';
+					} else {
+						htm = '<div class="s-item" style="margin: 30px 50px 0 50px;" onclick="openShirtUrl(\''+item.linkUrl+'\','+item.shirtId+');">';
+					}
 								//+ '<img src="'+(item.imgType==1?data.baseUrl:'')+item.shirtImg+'" width="220px"/>'
-							+ '<div class="shirtImg" style="background:url('+(item.imgType==1?data.baseUrl:'')+item.shirtImg+') no-repeat top center"></div>'
+					htm += '<div class="shirtImg" style="background:url('+(item.imgType==1?data.baseUrl:'')+item.shirtImg+') no-repeat top center"></div>'
 								+ '<div class="s-box-s-content">'
-									+ '<div class="s-box-s-title">' + item.shirtId + item.title + '</div>'
+									+ '<div class="s-box-s-title">' + item.title + '</div>'
 									+ '<div class="s-box-s-interval"></div>'
 									+ '<div class="s-box-s-price">'
 										+ '<span class="rmb">¥</span><span class="price">'+item.minPrice+'</span>'
@@ -279,7 +323,8 @@ function getMoreShirt() {
     });
 }
 
-function openShirtUrl(url) {
+function openShirtUrl(url, shirtId) {
+	clickPoint(shirtId);
 	window.open(url);
 }
 
@@ -359,6 +404,32 @@ function fitImg(){
 				}
 				img.onload = null;
 			};
+		}
+	});
+}
+
+function isPC() {
+	var userAgentInfo = navigator.userAgent;
+	var Agents = ["Android", "iPhone",
+		"SymbianOS", "Windows Phone",
+		"iPad", "iPod"];
+	var flag = true;
+	for (var v = 0; v < Agents.length; v++) {
+		if (userAgentInfo.indexOf(Agents[v]) > 0) {
+			flag = false;
+			break;
+		}
+	}
+	return flag;
+}
+
+function clickPoint(shirtId) {
+	$.ajax({
+		type: 'post',
+		url: "click-point.htm?shirtId="+shirtId,
+		async: false,
+		dataType: 'json',
+		success: function (data) {
 		}
 	});
 }
