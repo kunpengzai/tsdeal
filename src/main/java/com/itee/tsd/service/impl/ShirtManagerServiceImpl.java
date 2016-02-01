@@ -261,8 +261,10 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		File file = new File(path);
 		String[] files = file.list();
 		for (String fileName : files) {
-			ImageUtils.resizeImage(path+fileName,
-					Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH")+fileName, 220, 220);
+			ImageUtils.aliResizeImg(path+fileName,
+					Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH")+fileName,
+					Integer.valueOf(Config.getProperty("IMG_WIDTH")),
+					Integer.valueOf(Config.getProperty("IMG_HEIGHT")));
 		}
 		m.put("flag", 0);
 		return m;
@@ -278,8 +280,10 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 		
 		DownloadUtils.getFile(imageFile.getInputStream(), newFileName, 
 				Config.getProperty("SAVE_SHIRT_IMG_PATH"));
-		ImageUtils.resizeImage(Config.getProperty("SAVE_SHIRT_IMG_PATH")+newFileName,
-				Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH")+newFileName, 220, 220);
+		ImageUtils.aliResizeImg(Config.getProperty("SAVE_SHIRT_IMG_PATH")+newFileName,
+				Config.getProperty("SAVE_SHIRT_COMPRESS_IMG_PATH")+newFileName,
+				Integer.valueOf(Config.getProperty("IMG_WIDTH")),
+				Integer.valueOf(Config.getProperty("IMG_HEIGHT")));
 		return newFileName;
 	}
 	
