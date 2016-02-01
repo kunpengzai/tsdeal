@@ -18,7 +18,7 @@
 	<meta http-equiv="expires" content="0">    
 	<link rel="shortcut icon" href="/img/favicon.ico">
     <title>itee 最好的T恤推荐平台</title>
-   	<link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206000"/>
+   	<link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206010"/>
   </head>
   <body>
  	<!-- header part start -->
@@ -385,5 +385,5 @@
 
   </body>
   <%@include file="../layout/commonjs.jsp" %>
-  <script src="<%=path%>/js/shirt/shirt-list.js?t=20151206000"></script>
+  <script src="<%=path%>/js/shirt/shirt-list.js?t=20151206010"></script>
 </html>

@@ -234,7 +234,7 @@ function imgLoad1 (parent, content) {
 function getMoreShirt() {
 	$(".s-shirt-blank").hide();
 	$(".s-shirt-not-data").hide();
-	var pageSize = 8;
+	var pageSize = 20;
 	var url = "get-more-shirt.htm?pageNum="+pageNum+"&pageSize="+pageSize;
 	if (colorId != 0) {
 		url += "&colorId="+colorId;
