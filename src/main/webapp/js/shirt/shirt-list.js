@@ -22,12 +22,17 @@ $(function() {
 		$(".s-header-right-2").on('mouseout', function(){
 			$(".qrcode-layer-part").hide();
 		});
+		$(".s-header-right-2").on('click', function(){
+			$(".qrcode-layer").css('marginLeft',(1000-240-5)+'px');
+			$(".qrcode-layer-part").show();
+		});
 	} else {
 		$(".s-header-1").css("width", "620px");
 		$(".s-header-1").css("padding", "0 10px 0 10px");
 		$(".s-shirt-content").css("width", "640px");
-		$(".s-header-right-2").on('click', function(){
-			window.location.href = "#";
+		$(".s-header-right-2").on('touchend', function(){
+			$(".qrcode-layer").css('marginLeft',(640-240-5)+'px');
+			$(".qrcode-layer-part").show();
 		});
 	}
 

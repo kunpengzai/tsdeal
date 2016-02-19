@@ -17,7 +17,7 @@
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<link rel="shortcut icon" href="/img/favicon.ico">
-    <title>itee 最好的T恤推荐平台</title>
+    <title>Miles麦斯 - 找到最好的T恤!</title>
    	<link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206010"/>
   </head>
   <body>
@@ -25,8 +25,9 @@
  	<div class="s-header-top"></div>
   	<div class="s-header-part">
 		<div class="s-header-1">
-		  	<span class="s-header-left-1">itee</span>
-		  	<span class="s-header-left-2">最好的T恤推荐平台</span>
+		  	<%--<span class="s-header-left-1">itee</span>
+		  	<span class="s-header-left-2">最好的T恤推荐平台</span>--%>
+			<span class="s-header-left"><img src="../img/logo.png"></span>
 			<span class="s-header-right-2">关注我们</span>
 			<span class="s-header-right-1"><img id="s-show-search" src="../img/search1.png"></span>
 			<span class="s-header-right-0"><input type="text" id="s-search" placeholder="搜索" /><img id="s-search-btn" src="../img/search2.png"></span>
@@ -39,7 +40,7 @@
 				<img src="../img/triangle.png">
 			</div>
 			<div class="qrcode-content">
-				<img src="../img/qrcode.png" width="128px" height="128px">
+				<img src="../img/qrcode.png" width="144px" height="144px">
 			</div>
 		</div>
 	</div>

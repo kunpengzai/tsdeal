@@ -44,6 +44,15 @@ body {
 	padding: 0 0 0 15px;
 }
 
+.s-header-left {
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.s-header-left img {
+	margin: 14px 0 0 0;
+}
+
 .s-header-right-0 {
 	float: right;
 	margin: 30px 10px 0 0;
