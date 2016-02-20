@@ -7,8 +7,8 @@
   	<meta charset="utf-8"/>
 	<script>
 	    var phoneWidth = parseInt(window.screen.width);
-	    var phoneScale = phoneWidth / 640;
-	    document.write('<meta name="viewport" content="width=640, initial-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', user-scalable=no target-densitydpi=device-dpi">');
+	    var phoneScale = phoneWidth / 540;
+	    document.write('<meta name="viewport" content="width=540, initial-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', user-scalable=no target-densitydpi=device-dpi">');
 	</script>
 	<meta name="format-detection" content="telephone=no">
 	<meta name="apple-mobile-web-app-capable" content="yes" />

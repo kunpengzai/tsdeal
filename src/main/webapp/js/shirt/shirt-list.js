@@ -29,9 +29,9 @@ $(function() {
 			$(".qrcode-layer-part").show();
 		});
 	} else {
-		$(".s-header-1").css("width", "620px");
+		$(".s-header-1").css("width", "520px");
 		$(".s-header-1").css("padding", "0 10px 0 10px");
-		$(".s-shirt-content").css("width", "640px");
+		$(".s-shirt-content").css("width", "540px");
 	}
 
 	//$('#s-container').masonry({
@@ -291,7 +291,7 @@ function getMoreShirt() {
 					if (pcClient == true) {
 						htm = '<div class="s-item" onclick="openShirtUrl(\''+item.linkUrl+'\','+item.shirtId+');">';
 					} else {
-						htm = '<div class="s-item" style="margin: 30px 50px 0 50px;" onclick="openShirtUrl(\''+item.linkUrl+'\','+item.shirtId+');">';
+						htm = '<div class="s-item" style="margin: 30px 25px 0 25px;" onclick="openShirtUrl(\''+item.linkUrl+'\','+item.shirtId+');">';
 					}
 								//+ '<img src="'+(item.imgType==1?data.baseUrl:'')+item.shirtImg+'" width="220px"/>'
 					htm += '<div class="shirtImg" style="background:url('+(item.imgType==1?data.baseUrl:'')+item.shirtImg+') no-repeat top center"></div>'
