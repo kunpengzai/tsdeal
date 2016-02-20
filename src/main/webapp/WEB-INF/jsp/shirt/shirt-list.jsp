@@ -16,11 +16,13 @@
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
-	<link rel="shortcut icon" href="/img/favicon.ico">
+	<link rel="shortcut icon" href="<%=path%>/img/favicon.ico">
     <title>Miles麦斯 - 找到最好的T恤!</title>
    	<link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206010"/>
   </head>
   <body>
+  	<!-- For weixin share-->
+  	<div style="display: none;"><img src="../img/logo_500_500.png"></div>
  	<!-- header part start -->
  	<div class="s-header-top"></div>
   	<div class="s-header-part">
