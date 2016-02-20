@@ -12,6 +12,8 @@ var pcClient = true;
 $(function() {
 	pcClient = isPC();
 	if (pcClient == true) {
+		$(".s-header-right-2").show();
+		$(".s-header-right-1").show();
 	    $(".s-filter").show();
 		$(".s-header-1").css("width", "1000px");
 		$(".s-shirt-content").css("width", "1000px");
@@ -30,10 +32,6 @@ $(function() {
 		$(".s-header-1").css("width", "620px");
 		$(".s-header-1").css("padding", "0 10px 0 10px");
 		$(".s-shirt-content").css("width", "640px");
-		$(".s-header-right-2").on('touchend', function(){
-			$(".qrcode-layer").css('marginLeft',(640-240-5)+'px');
-			$(".qrcode-layer-part").show();
-		});
 	}
 
 	//$('#s-container').masonry({

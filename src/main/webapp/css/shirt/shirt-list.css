@@ -91,6 +91,7 @@ body {
 	background-color: #F1F1F1;
 	vertical-align: middle;
 	cursor: pointer;
+	display: none;
 }
 
 #s-show-search {
@@ -107,6 +108,7 @@ body {
 	height: 22px;
 	line-height: 22px;
 	background-color: #F1F1F1;
+	display: none;
 }
 
 .s-header-border {
@@ -152,14 +154,17 @@ body {
 	display:inline-block;
 	color:#000000;
 	font-weight:bolder;
+	font-size: 15px;
+	height: 15px;
+	line-height: 15px;
 	/* background-color:#247cbd; */
 }
 
 .s-filter-title-tab {
 	margin:0 4px 0 0;
 	width:4px;
-	height:10px;
-	line-height:10px;
+	height:14px;
+	line-height:14px;
 	display:inline-block;
 }
 
@@ -210,6 +215,8 @@ body {
 	line-height: 1.5;
 	text-align: center;
 	cursor: pointer;
+	font-size: 12px;
+	color:#656565;
 }
 
 .s-filter-border {
