@@ -393,7 +393,7 @@ function fitImg(){
 		if (img.complete) {
 			imgWidth = img.width;
 			imgHeight = img.height;
-			if (imgWidth < imgHeight) {
+			if (imgWidth*300 < imgHeight*220) {//imgWidth/imgHeight < 220/300
 				$(e).removeClass('shirtImg');
 				$(e).addClass('shirtImg2');
 			}
@@ -401,7 +401,7 @@ function fitImg(){
 			img.onload = function () {
 				imgWidth = img.width;
 				imgHeight = img.height;
-				if (imgWidth < imgHeight) {
+				if (imgWidth*300 < imgHeight*220) {//imgWidth/imgHeight < 220/300
 					$(e).removeClass('shirtImg');
 					$(e).addClass('shirtImg2');
 				}
