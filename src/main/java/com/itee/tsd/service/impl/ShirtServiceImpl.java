@@ -58,7 +58,7 @@ public class ShirtServiceImpl implements ShirtService {
 		if (searchInfo.getSleeve() != null && searchInfo.getSleeve() > 0) {
 			shirt.setSleeve(searchInfo.getSleeve());
 		}
-//		shirt.setMinWeight(1);
+		shirt.setMinWeight(1);
 		if (pageInfo != null) {
 			if (pageInfo.getPageNum() == null) {
 				pageInfo.setPageNum(1);
