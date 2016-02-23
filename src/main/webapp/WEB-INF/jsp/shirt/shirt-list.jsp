@@ -3,22 +3,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-  
-  	<meta charset="utf-8"/>
-	<script>
-	    var phoneWidth = parseInt(window.screen.width);
-	    var phoneScale = phoneWidth / 540;
-	    document.write('<meta name="viewport" content="width=540, initial-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', user-scalable=no target-densitydpi=device-dpi">');
-	</script>
-	<meta name="format-detection" content="telephone=no">
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<link rel="shortcut icon" href="<%=path%>/img/favicon.ico">
-    <title>Miles麦斯 - 找到最好的T恤!</title>
-   	<link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206010"/>
+	  <meta charset="utf-8"/>
+	  <script>
+		  var phoneWidth = parseInt(window.screen.width);
+		  var phoneScale = phoneWidth / 540;
+		  document.write('<meta name="viewport" content="width=540, initial-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', user-scalable=no target-densitydpi=device-dpi">');
+
+		  var _hmt = _hmt || [];
+		  (function() {
+			  var hm = document.createElement("script");
+			  hm.src = "//hm.baidu.com/hm.js?93d0f1e68630c596315846b30b245d46";
+			  var s = document.getElementsByTagName("script")[0];
+			  s.parentNode.insertBefore(hm, s);
+		  })();
+	  </script>
+	  <meta name="format-detection" content="telephone=no">
+	  <meta name="apple-mobile-web-app-capable" content="yes" />
+	  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	  <meta http-equiv="pragma" content="no-cache">
+	  <meta http-equiv="cache-control" content="no-cache">
+	  <meta http-equiv="expires" content="0">
+	  <meta name="keywords" content="T恤、麦斯miles、潮流T恤、导购电商、男生购物、纯色T恤、品牌T恤。" />
+	  <meta name="description" content="麦斯miles，中国年轻人喜欢的潮流T恤推荐电商平台，聚集了国内外多个知名T恤品牌，包括潮男们喜欢的viishow、Accent Eleven、evisu、lilbetter、无印良品、YESMAN、Lets Tee、The thins等等。这也是目前国内唯一一家专业推荐T恤的电商平台，每件T恤都是经过精心挑选，仔细比对价格跟质量，把好评度最高的商品推荐给您！" />
+	  <link rel="shortcut icon" href="<%=path%>/img/favicon.ico">
+	  <title>Miles麦斯 - 找到最好的T恤!</title>
+	  <link rel="stylesheet" href="<%=path%>/css/shirt/shirt-list.css?t=20151206010"/>
   </head>
   <body>
   	<!-- For weixin share-->
