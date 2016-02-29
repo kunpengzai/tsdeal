@@ -95,6 +95,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 	public void addShirt(ShirtDTO shirt, MultipartFile imageFile) throws IOException {
 		Shirt newShirt = new Shirt();
 		newShirt.setLinkUrl(shirt.getLinkUrl());
+		newShirt.setUrl(shirt.getUrl());
 		newShirt.setTitle(shirt.getTitle());
 		newShirt.setMinPrice(shirt.getMinPrice());
 		newShirt.setMaxPrice(shirt.getMaxPrice());
@@ -155,6 +156,7 @@ public class ShirtManagerServiceImpl implements ShirtManagerService {
 				Shirt updateShirt = new Shirt();
 				updateShirt.setId(shirt.getShirtId());
 				updateShirt.setLinkUrl(shirt.getLinkUrl());
+				updateShirt.setUrl(shirt.getUrl());
 				updateShirt.setTitle(shirt.getTitle());
 				updateShirt.setMinPrice(shirt.getMinPrice());
 				updateShirt.setMaxPrice(shirt.getMaxPrice());

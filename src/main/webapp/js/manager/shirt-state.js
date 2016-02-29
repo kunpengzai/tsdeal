@@ -425,6 +425,7 @@ function getShirtDetail(shirtId) {
         		var shirtList = JSON.parse(data.shirtList);
         		$.each(shirtList,function(index, item) {
         			$("#shirt-edit-link-url").val(item.linkUrl);
+					$("#shirt-edit-url").val(item.url);
         			$("#shirt-edit-title").val(item.title);
         			$("#shirt-edit-min-price").val(item.minPrice);
         			$("#shirt-edit-max-price").val(item.maxPrice);
@@ -471,6 +472,7 @@ function getShirtDetail(shirtId) {
 
 function resetLayer(type) {
 	$("#shirt-"+type+"-link-url").val("");
+	$("#shirt-"+type+"-url").val("");
 	$("#shirt-"+type+"-title").val("");
 	$("#shirt-"+type+"-min-price").val("");
 	$("#shirt-"+type+"-max-price").val("");

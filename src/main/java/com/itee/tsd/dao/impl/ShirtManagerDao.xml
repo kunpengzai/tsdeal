@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shirtManager">
 	<select id="getShirtList" parameterType="com.itee.tsd.entity.Shirt" resultType="com.itee.tsd.dto.ShirtDTO">
-		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight, 
+		select s.id shirtId,s.title,s.linkUrl,s.url,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight,
 			(select sb.name from shirt_brand sb where sb.id=s.brandId) brandName, 
 			(select ss.name from shirt_source ss where ss.id=s.sourceId) sourceName, 
 			s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,if(sl.clickNum is null, 0, sl.clickNum) clickNum, 
@@ -107,7 +107,7 @@
 	</select>
 	
 	<select id="getShirt" parameterType="Long" resultType="com.itee.tsd.dto.ShirtDTO">
-		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,
+		select s.id shirtId,s.title,s.linkUrl,s.url,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,
 			s.imgType,s.shirtImg,s.status,s.weight,s.createTime,s.updateTime,
 			(select group_concat(sp.colorId separator ',') from shirt_param sp, shirt_color sc where
 				sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0 and sc.status &gt; 0) colorIds
@@ -122,6 +122,9 @@
 			</if>
 			<if test="linkUrl != null">
 				linkUrl=#{linkUrl},
+			</if>
+			<if test="url != null">
+				url=#{url},
 			</if>
 			<if test="sourceId != null">
 				sourceId=#{sourceId},
@@ -183,9 +186,9 @@
 	</update>
 	
 	<insert id="saveShirt" useGeneratedKeys="true" keyProperty="id" parameterType="com.itee.tsd.entity.Shirt">
-	    insert into shirt (title,linkUrl,sourceId,brandId,minPrice,maxPrice,design,sleeve,isActive,
+	    insert into shirt (title,linkUrl,url,sourceId,brandId,minPrice,maxPrice,design,sleeve,isActive,
 			imgType,shirtImg,status,weight,createTime,updateTime) 
-	    values (#{title}, #{linkUrl}, #{sourceId}, #{brandId}, #{minPrice}, #{maxPrice}, #{design}, #{sleeve}, 
+	    values (#{title}, #{linkUrl}, #{url}, #{sourceId}, #{brandId}, #{minPrice}, #{maxPrice}, #{design}, #{sleeve},
 	    	#{isActive}, #{imgType}, #{shirtImg}, 0, 0, now(), now())
     </insert>
     

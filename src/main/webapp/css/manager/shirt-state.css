@@ -179,7 +179,7 @@
     vertical-align:middle;
 	width:800px;
 	/* min-height:500px; */
-	min-height:575px;
+	min-height:605px;
 	background-color:#FAFAFA;
 	border-radius:10px;
 	line-height:1;
@@ -217,12 +217,21 @@
 	text-align:left;
 }
 
+.shirt-add-s-link-url {
+	margin:10px 0 0 20px;
+}
+
+.shirt-add-s-link-url input {
+	margin:0 0 0 20px;
+	width:650px;
+}
+
 .shirt-add-s-url {
 	margin:10px 0 0 20px;
 }
 
 .shirt-add-s-url input {
-	margin:0 0 0 20px;
+	margin:0 0 0 4px;
 	width:650px;
 }
 
@@ -338,7 +347,7 @@
 }
 
 .shirt-add-s-btn {
-	margin:20px 30px 0 20px;
+	margin:10px 30px 0 20px;
 	width:100%;
 }
 
@@ -381,7 +390,7 @@
 	display:inline-block;
     vertical-align:middle;
 	width:800px;
-	min-height:575px;
+	min-height:605px;
 	background-color:#FAFAFA;
 	border-radius:10px;
 	line-height:1;

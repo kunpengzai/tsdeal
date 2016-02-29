@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shirt">
 	<select id="getMoreShirt" parameterType="com.itee.tsd.entity.Shirt" resultType="com.itee.tsd.dto.ShirtDTO">
-		select s.id shirtId,s.title,s.linkUrl,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight,
+		select s.id shirtId,s.title,s.linkUrl,s.url,s.sourceId,s.brandId,s.minPrice,s.maxPrice,s.design,s.sleeve,s.isActive,s.weight,
 		sb.name	brandName,ss.name sourceName,s.imgType,s.shirtImg,s.status,s.createTime,s.updateTime,
 			(select group_concat(sc.color separator ',') from shirt_param sp, shirt_color sc
 				where sp.colorId=sc.id and sp.shirtId=s.id and sp.status=0

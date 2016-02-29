@@ -14,6 +14,7 @@ public class ShirtDTO implements Serializable {
 	private Long shirtId;
 	private String title;
 	private String linkUrl;
+	private String url;
 	private Integer sourceId;
 	private Integer brandId;
 	private String sourceName;
@@ -173,5 +174,13 @@ public class ShirtDTO implements Serializable {
 	}
 	public void setColorNames(String colorNames) {
 		this.colorNames = colorNames;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

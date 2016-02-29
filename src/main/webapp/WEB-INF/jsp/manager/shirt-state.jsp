@@ -84,9 +84,13 @@
 			</div>
 			<form role="form" enctype="multipart/form-data" id="addShirtForm" action="add-shirt.htm" method="post">
 			<div class="shirt-add-content">
-				<div class="shirt-add-s-url">
+				<div class="shirt-add-s-link-url">
 					<span>商品链接</span>
 					<input type="text" id="shirt-add-link-url" name="linkUrl" class='input' />
+				</div>
+				<div class="shirt-add-s-url">
+					<span>淘宝客链接</span>
+					<input type="text" id="shirt-add-url" name="url" class='input' />
 				</div>
 				<div class="shirt-add-s-title">
 					<span>标题</span>
@@ -184,9 +188,13 @@
 			<form role="form" enctype="multipart/form-data" id="editShirtForm" action="edit-shirt.htm" method="post">
 			<div class="shirt-add-content">
 				<input type="hidden" id="shirt-edit-id" name="shirtId" value=""/>
-				<div class="shirt-add-s-url">
+				<div class="shirt-add-s-link-url">
 					<span>商品链接</span>
 					<input type="text" id="shirt-edit-link-url" name="linkUrl" class='input' />
+				</div>
+				<div class="shirt-add-s-url">
+					<span>淘宝客链接</span>
+					<input type="text" id="shirt-edit-url" name="url" class='input' />
 				</div>
 				<div class="shirt-add-s-title">
 					<span>标题</span>

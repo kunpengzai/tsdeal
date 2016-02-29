@@ -14,6 +14,7 @@ public class Shirt implements Serializable {
 	private Long id;
 	private String title;
 	private String linkUrl;
+	private String url;
 	private Integer sourceId;
 	private Integer brandId;
 	private Float minPrice;
@@ -197,5 +198,13 @@ public class Shirt implements Serializable {
 	}
 	public void setOrderCont(String orderCont) {
 		this.orderCont = orderCont;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

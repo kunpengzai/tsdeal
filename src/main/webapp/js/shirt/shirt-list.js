@@ -289,9 +289,9 @@ function getMoreShirt() {
 					//var htm = '<div class="s-box">'
 					var htm = '';
 					if (pcClient == true) {
-						htm = '<div class="s-item" onclick="openShirtUrl(\''+item.linkUrl+'\','+item.shirtId+');">';
+						htm = '<div class="s-item" onclick="openShirtUrl(\''+((item.url==null||item.url=='')?item.linkUrl:item.url)+'\','+item.shirtId+');">';
 					} else {
-						htm = '<div class="s-item" style="margin: 30px 25px 0 25px;" onclick="openShirtUrl(\''+item.linkUrl+'\','+item.shirtId+');">';
+						htm = '<div class="s-item" style="margin: 30px 25px 0 25px;" onclick="openShirtUrl(\''+((item.url==null||item.url=='')?item.linkUrl:item.url)+'\','+item.shirtId+');">';
 					}
 								//+ '<img src="'+(item.imgType==1?data.baseUrl:'')+item.shirtImg+'" width="220px"/>'
 					htm += '<div class="shirtImg" style="background:url('+(item.imgType==1?data.baseUrl:'')+item.shirtImg+') no-repeat top center"></div>'
