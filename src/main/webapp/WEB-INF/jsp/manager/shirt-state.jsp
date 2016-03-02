@@ -83,7 +83,6 @@
 				</span>
 			</div>
 			<form role="form" enctype="multipart/form-data" id="addShirtForm" action="add-shirt.htm" method="post">
-				<input type="hidden" id="add-page-pageNum" name="pageNum" value=""/>
 			<div class="shirt-add-content">
 				<div class="shirt-add-s-link-url">
 					<span>商品链接</span>

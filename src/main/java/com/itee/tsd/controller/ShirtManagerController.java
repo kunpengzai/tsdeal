@@ -69,13 +69,10 @@ public class ShirtManagerController {
 	
 	
 	@RequestMapping ("add-shirt")
-	public String addShirt(HttpServletRequest request, Model model, ShirtDTO shirt, Integer pageNum,
+	public String addShirt(HttpServletRequest request, Model model, ShirtDTO shirt,
 			@RequestParam MultipartFile imageFile) throws IOException {
 		shirtManagerService.addShirt(shirt, imageFile);
-		if (pageNum == null) {
-			pageNum = 1;
-		}
-		return "redirect:"+"/sm/shirt-state.htm#pageNum="+pageNum;
+		return "redirect:"+"/sm/shirt-state.htm";
 	}
 	
 	@ResponseBody
