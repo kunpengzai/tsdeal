@@ -43,6 +43,8 @@ function getShirtList() {
 	var urlHash=$.iteeHash.get();
 	var pageNum = urlHash.pageNum||1;
 	var pageSize = urlHash.pageSize||20;
+	$("#add-page-pageNum").val(pageNum);
+	$("#edit-page-pageNum").val(pageNum);
 	var url = "shirt-list.htm?pageNum="+pageNum+"&pageSize="+pageSize;
 	$.iteeHash.add({"pageNum":pageNum});
 	$.iteeHash.add({"pageSize":pageSize});

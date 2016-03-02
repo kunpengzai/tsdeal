@@ -43,12 +43,12 @@ public class ShirtManagerController {
 		List<ShirtPropertyDTO> sourceList = baseManagerService.getSourceList();
 		List<ShirtPropertyDTO> colorList = baseManagerService.getColorList();
 		String status = baseManagerService.getWeightScheduler();
-		
+
 		model.addAttribute("brandList", brandList);
 		model.addAttribute("sourceList", sourceList);
 		model.addAttribute("colorList", colorList);
 		model.addAttribute("weightSchedulerStatus", status);
-		
+
 		return "/manager/shirt-state";
 	}
 	
@@ -69,10 +69,13 @@ public class ShirtManagerController {
 	
 	
 	@RequestMapping ("add-shirt")
-	public String addShirt(HttpServletRequest request, Model model, ShirtDTO shirt, 
+	public String addShirt(HttpServletRequest request, Model model, ShirtDTO shirt, Integer pageNum,
 			@RequestParam MultipartFile imageFile) throws IOException {
 		shirtManagerService.addShirt(shirt, imageFile);
-		return "redirect:"+"/sm/shirt-state.htm";
+		if (pageNum == null) {
+			pageNum = 1;
+		}
+		return "redirect:"+"/sm/shirt-state.htm#pageNum="+pageNum;
 	}
 	
 	@ResponseBody
@@ -83,10 +86,13 @@ public class ShirtManagerController {
 	}
 	
 	@RequestMapping ("edit-shirt")
-	public String editShirt(HttpServletRequest request, Model model, ShirtDTO shirt, 
+	public String editShirt(HttpServletRequest request, Model model, ShirtDTO shirt, Integer pageNum,
 			@RequestParam MultipartFile imageFile) throws IOException {
 		shirtManagerService.editShirt(shirt, imageFile);
-		return "redirect:"+"/sm/shirt-state.htm";
+		if (pageNum == null) {
+			pageNum = 1;
+		}
+		return "redirect:"+"/sm/shirt-state.htm#pageNum="+pageNum;
 	}
 	
 	@ResponseBody
